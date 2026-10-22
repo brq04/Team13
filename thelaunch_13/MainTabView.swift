@@ -28,7 +28,7 @@ struct HomeView: View {
     var body: some View {
         // TODO: صفحة الرئيسية
         Text("الرئيسية")
-            .font(.title.bold())
+            .font(.app(28, .bold))
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
@@ -56,7 +56,7 @@ struct TabBar: View {
             VStack(spacing: 4) {
                 Image(systemName: selected ? "\(icon).fill" : icon)
                     .font(.system(size: 22))
-                Text(title).font(.system(size: 12, weight: .medium))
+                Text(title).font(.app(12, .medium))
             }
             .foregroundStyle(selected ? Color.brandDark : .primary)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -70,5 +70,3 @@ struct TabBar: View {
     MainTabView()
         .environment(\.layoutDirection, .rightToLeft)
 }
-
-

@@ -17,6 +17,22 @@ extension Color {
     static let inkDark2  = Color(hex: 0x283124)
 }
 
+// MARK: - Font
+extension Font {
+    /// الخط المخصص: The Year of Handicrafts
+    static func app(_ size: CGFloat, _ weight: Font.Weight = .regular) -> Font {
+        let name: String
+        switch weight {
+        case .black, .heavy: name = "TheYearofHandicrafts-Black"
+        case .bold:          name = "TheYearofHandicrafts-Bold"
+        case .semibold:      name = "TheYearofHandicrafts-SemiBold"
+        case .medium:        name = "TheYearofHandicrafts-Medium"
+        default:             name = "TheYearofHandicrafts-Regular"
+        }
+        return .custom(name, size: size)
+    }
+}
+
 // MARK: - Models
 enum PlaceKind {
     case explore, volunteer
@@ -65,7 +81,7 @@ struct Place: Identifiable, Hashable {
     }
 }
 
-
+// MARK: - Sample data (بيانات تجريبية، بدليها ببياناتك)
 extension Place {
     static let samples: [Place] = [
         Place(title: "حديقة الملك عبدالله", subtitle: "حي الملز، الرياض", details: nil,

@@ -14,15 +14,15 @@ struct PlaceSheet: View {
             PlaceImage(place: place)
 
             VStack(alignment: .leading, spacing: 8) {
-                Text(place.title).font(.system(size: 20, weight: .bold))
+                Text(place.title).font(.app(20, .bold))
 
                 if let details = place.details {
                     Text(details)
-                        .font(.system(size: 13))
+                        .font(.app(13))
                         .foregroundStyle(.secondary)
                 } else {
                     Label(place.subtitle, systemImage: "mappin")
-                        .font(.system(size: 13))
+                        .font(.app(13))
                         .foregroundStyle(.secondary)
                 }
             }
@@ -35,7 +35,7 @@ struct PlaceSheet: View {
                             Image(systemName: tag.icon)
                             Text(tag.text)
                         }
-                        .font(.system(size: 11))
+                        .font(.app(11))
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
                         .overlay(Capsule().stroke(Color.brand.opacity(0.5), lineWidth: 1))
@@ -51,7 +51,7 @@ struct PlaceSheet: View {
                     Text(place.kind.actionTitle)
                     Image(systemName: place.kind.actionIcon)
                 }
-                .font(.system(size: 15, weight: .semibold))
+                .font(.app(15, .semibold))
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
@@ -90,7 +90,7 @@ struct PlaceImage: View {
                 Text(place.kind.badge)
                 Image(systemName: place.kind.badgeIcon)
             }
-            .font(.system(size: 10, weight: .medium))
+            .font(.app(10, .medium))
             .padding(.horizontal, 8)
             .padding(.vertical, 4)
             .background(.white.opacity(0.9), in: Capsule())

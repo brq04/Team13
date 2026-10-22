@@ -50,15 +50,18 @@ struct MapHomeView: View {
         }
         .mapStyle(.standard(pointsOfInterest: .excludingAll))
         .clipShape(RoundedRectangle(cornerRadius: 24))
-        .overlay(alignment: .bottomLeading) {   // bottomLeading = أسفل اليمين في العربي
-            VStack(alignment: .leading, spacing: 10) {
-                Button {
-                    withAnimation { position = .userLocation(fallback: .automatic) }
-                } label: {
-                    Image(systemName: "location.fill")
-                        .foregroundStyle(.white)
-                        .frame(width: 42, height: 42)
-                        .background(Color.brand, in: Circle())
+        .overlay(alignment: .bottom) {
+            VStack(spacing: 10) {
+                HStack {   // أول عنصر = اليمين في العربي
+                    Button {
+                        withAnimation { position = .userLocation(fallback: .automatic) }
+                    } label: {
+                        Image(systemName: "location.fill")
+                            .foregroundStyle(.white)
+                            .frame(width: 44, height: 44)
+                            .background(Color.brand, in: Circle())
+                    }
+                    Spacer()
                 }
                 MapLegend()
             }
@@ -88,8 +91,8 @@ struct AppHeader: View {
                 .font(.system(size: 30))
                 .foregroundStyle(Color.brandDark)
             VStack(alignment: .leading, spacing: 2) {
-                Text("خريطة المجتمع").font(.system(size: 22, weight: .bold))
-                Text("اصنع الفرق حولك").font(.system(size: 11)).foregroundStyle(.secondary)
+                Text("خريطة المجتمع").font(.app(22, .bold))
+                Text("اصنع الفرق حولك").font(.app(11)).foregroundStyle(.secondary)
             }
             Spacer()
         }
@@ -102,7 +105,7 @@ struct SearchBar: View {
     var body: some View {
         HStack(spacing: 10) {
             Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-            TextField("البحث", text: $text)
+            TextField("البحث", text: $text).font(.app(14))
             Image(systemName: "mic").foregroundStyle(.secondary)
         }
         .padding(.horizontal, 15)
@@ -122,11 +125,11 @@ struct CategoryChips: View {
                     withAnimation(.snappy) { selection = c }
                 } label: {
                     Text(c.title)
-                        .font(.system(size: 12, weight: .medium))
+                        .font(.app(12, .medium))
                         .foregroundStyle(selection == c ? .white : .primary)
                         .frame(maxWidth: .infinity)
                         .frame(height: 36)
-                        .background { if selection == c { Capsule().fill(Color.brand) } }
+                        .background { if selection == c { Capsule().fill(Color.brandDark) } }
                 }
                 .buttonStyle(.plain)
             }
@@ -139,23 +142,27 @@ struct CategoryChips: View {
 
 struct MapLegend: View {
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
+        VStack(alignment: .leading, spacing: 12) {
             row(icon: "tree.fill", color: .brand,
                 title: "استكشاف", subtitle: "يمكنك استكشاف أماكن زراعتها")
             row(icon: "person.3.fill", color: .red,
                 title: "يحتاج متطوعين", subtitle: "أماكن تحتاج لتحسين ومساعدة")
         }
-        .padding(10)
-        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+        .padding(.vertical, 14)
+        .padding(.horizontal, 18)
+        .frame(maxWidth: .infinity)   // بعرض الخريطة كاملة
+        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20))
     }
 
     private func row(icon: String, color: Color, title: String, subtitle: String) -> some View {
-        HStack(spacing: 8) {
-            Image(systemName: icon).font(.system(size: 20)).foregroundStyle(color)
-            VStack(alignment: .leading, spacing: 1) {
-                Text(title).font(.system(size: 12, weight: .bold))
-                Text(subtitle).font(.system(size: 9)).foregroundStyle(.secondary)
+        HStack(spacing: 12) {
+            Image(systemName: icon).font(.system(size: 26)).foregroundStyle(color)
+                .frame(width: 34)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title).font(.app(15, .bold))
+                Text(subtitle).font(.app(12)).foregroundStyle(.secondary)
             }
+            Spacer(minLength: 0)
         }
     }
 }

@@ -16,6 +16,11 @@
 			path = thelaunch_13;
 			sourceTree = "<group>";
 		};
+		4DAD643A30890DA900C2AA85 /* the font */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "the font";
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +37,7 @@
 			children = (
 				4D4673163087D0F8008B5378 /* thelaunch_13 */,
 				4D4673153087D0F8008B5378 /* Products */,
+				4DAD643A30890DA900C2AA85 /* the font */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +64,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				4D4673163087D0F8008B5378 /* thelaunch_13 */,
+				4DAD643A30890DA900C2AA85 /* the font */,
 			);
 			name = thelaunch_13;
 			productName = thelaunch_13;
