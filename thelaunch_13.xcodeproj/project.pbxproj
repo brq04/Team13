@@ -47,6 +47,7 @@
 				60A337C3308F465900249400 /* Activitypage.swift */,
 				60A337C1308F454900249400 /* MyApp.swift */,
 				60A337BB308F3F8700249400 /* thelaunch-13-Info.plist */,
+				2DB86F12308F43AB0013C1EB /* thelaunch-13-Info.plist */,
 				4D4673163087D0F8008B5378 /* thelaunch_13 */,
 				4DAD643A30890DA900C2AA85 /* the font */,
 				60A337BE308F425600249400 /* thelaunch_13-Bridging-Header.h */,
@@ -83,7 +84,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2700;
-				LastUpgradeCheck = 2700;
+				LastUpgradeCheck = 2710;
 				TargetAttributes = {
 					4D4673133087D0F8008B5378 = {
 						CreatedOnToolsVersion = 27.0;
@@ -187,6 +188,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -243,6 +245,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -275,7 +278,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "thelaunch_13-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "thelaunch_13/thelaunch_13-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
