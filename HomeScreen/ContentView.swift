@@ -11,8 +11,8 @@ struct ContentView: View {
                             .scaledToFill()
                             .ignoresSafeArea()
 
-            
-            
+            ScrollView{
+            // Header
             VStack(spacing: 0) {
 
                         // Header
@@ -44,39 +44,57 @@ struct ContentView: View {
                                     .frame(width: 60, height: 60)
                                     .clipShape(Circle())
                             }
-                            .padding(.top, 50)
+                            .padding(.top, 64)
                         
+                
                 // Daily Progress
                 dailyProgressCard
-                    .padding(.top, 50)
+                    .padding(.top, 48)
                 
-                        Spacer()
+                
+                
+                // activityStatsCards
+                activityStatsCards
+                    .padding(.top, 24)
+                
+                
+                
+                // Discover & Learn
+                discoverLearnSection
+                    .padding(.top, 24)
+                
+                Spacer()
                     }.padding(.horizontal, 20)
+            }.padding(.bottom, 110)
     }
 }
     
-  
+    
+    
+    
+    
+  //dailyProgressCard
     private var dailyProgressCard: some View {
-        VStack(alignment: .trailing, spacing: 16) {
+        VStack(alignment: .trailing, spacing: 8) {
 
             // Title and streak
-            VStack(alignment: .trailing, spacing: 6) {
+            VStack(alignment: .trailing, spacing: 4) {
                 Text("تقدّمك اليومي")
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.custom("TheYearofHandicrafts-Bold",size: 20))
 
                 Text("سلسلتك الحالية 7 أيام متتالية 🌿")
-                    .font(.system(size: 16))
+                    .font(.custom("TheYearofHandicrafts-Light",size: 16))
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
 
             // Seven-day tracker
-            HStack(spacing: 6) {
+            HStack(spacing: 8) {
                 ForEach((1...7).reversed(), id: \.self) { day in
                     VStack(spacing: 2) {
                         Text("يوم")
                         Text("\(day)")
                     }
-                    .font(.system(size: 13, weight: .medium))
+                    .font(.custom("TheYearofHandicrafts-Bold", size: 12))
                     .frame(maxWidth: .infinity)
                     .frame(height: 55)
                     .background(
@@ -105,9 +123,101 @@ struct ContentView: View {
     }
 
     
+    
+    
+    //activityStatsCards
+    private var activityStatsCards: some View {
+        GeometryReader { geometry in
+            let cardWidth = (geometry.size.width - 16) / 2
+
+            HStack(spacing: 16) {
+
+                Image(.statistics)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: cardWidth)
+
+                Image(.activities)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: cardWidth)
+            }
+        }
+        .frame(height: 140)
+    }
+
+    
+    //discoverLearnSection
+    private var discoverLearnSection: some View{
+        VStack(alignment: .trailing, spacing: 16) {
+
+                Text("اكتشف وتعلّم")
+                    .font(.custom("TheYearofHandicrafts-Bold", size: 20))
+            
+            articleCard(
+                title: "البلاستيك المستخدم لمرة واحدة",
+                description: "اكتشف أثر البلاستيك على البيئة وكيف نقدر نقلل استخدامه",
+                image: .plasticArticle,
+                url:"https://www.unep.org/ietc/resources/publication/single-use-plastics-roadmap-sustainability"
+            )
+
+            articleCard(
+                title: "كل حركة تصنع فرق",
+                description: "اكتشف كيف يؤثر النشاط البدني على صحتك وحياتك اليومية",
+                image: .walkingArticle,
+                url:"https://www.who.int/europe/publications/i/item/9789240014886?utm_source=chatgpt.com"
+            )
+            
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+    }
+    
+    // MARK: - Article Card
+    private func articleCard(
+        title: String,
+        description: String,
+        image: ImageResource,
+        url: String
+    ) -> some View {
+        HStack(spacing: 12) {
+            Link(destination: URL(string: url)!) {
+                Image(systemName: "arrow.up.right")
+                    .font(.system(size: 22))
+                    .foregroundStyle(.black)
+                    .frame(width: 44, height: 44)
+                    .background(Color.gray.opacity(0.15))
+                    .clipShape(Circle())
+            }
+            
+            VStack(alignment: .trailing, spacing: 0) {
+
+                Text(title)
+                    .font(.custom("TheYearofHandicrafts-Bold", size: 14))
+
+                Text(description)
+                    .font(.custom("TheYearofHandicrafts-Regular", size: 11))
+                    .multilineTextAlignment(.trailing)
+
+            }
+            
+            Image(image)
+                .resizable()
+                .scaledToFill()
+                .frame(width: 85, height: 85)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+            
+        }
+        .padding(16)
+        .frame(maxWidth: .infinity)
+        .background(
+            Color(red: 0.96, green: 0.97, blue: 0.91)
+        )
+        .clipShape(RoundedRectangle(cornerRadius: 32))
+    }
+    
 }
 #Preview {
-    ContentView()
+    MainTabView()
 }
 
 #Playground {
