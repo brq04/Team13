@@ -6,17 +6,9 @@
 	objectVersion = 110;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		60A337C2308F454B00249400 /* MyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A337C1308F454900249400 /* MyApp.swift */; };
-		60A337C4308F466600249400 /* Activitypage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60A337C3308F465900249400 /* Activitypage.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
-		4D4673143087D0F8008B5378 /* thelaunch_13.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = thelaunch_13.app; path = "/Users/englayan/Documents/Team13/build/Debug-iphoneos/thelaunch_13.app"; sourceTree = "<absolute>"; };
-		60A337BB308F3F8700249400 /* thelaunch-13-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "thelaunch-13-Info.plist"; sourceTree = "<group>"; };
-		60A337BE308F425600249400 /* thelaunch_13-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "thelaunch_13-Bridging-Header.h"; sourceTree = "<group>"; };
-		60A337C1308F454900249400 /* MyApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyApp.swift; sourceTree = "<group>"; };
-		60A337C3308F465900249400 /* Activitypage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Activitypage.swift; sourceTree = "<group>"; };
+		2DB86F12308F43AB0013C1EB /* thelaunch-13-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "thelaunch-13-Info.plist"; sourceTree = "<group>"; };
+		4D4673143087D0F8008B5378 /* thelaunch_13.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thelaunch_13.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -44,14 +36,19 @@
 		4D46730B3087D0F8008B5378 = {
 			isa = PBXGroup;
 			children = (
-				60A337C3308F465900249400 /* Activitypage.swift */,
-				60A337C1308F454900249400 /* MyApp.swift */,
-				60A337BB308F3F8700249400 /* thelaunch-13-Info.plist */,
 				2DB86F12308F43AB0013C1EB /* thelaunch-13-Info.plist */,
 				4D4673163087D0F8008B5378 /* thelaunch_13 */,
+				4D4673153087D0F8008B5378 /* Products */,
 				4DAD643A30890DA900C2AA85 /* the font */,
-				60A337BE308F425600249400 /* thelaunch_13-Bridging-Header.h */,
 			);
+			sourceTree = "<group>";
+		};
+		4D4673153087D0F8008B5378 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4D4673143087D0F8008B5378 /* thelaunch_13.app */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -102,7 +99,7 @@
 			mainGroup = 4D46730B3087D0F8008B5378;
 			minimizedProjectReferenceProxies = 1;
 			preferredProjectObjectVersion = 77;
-			productRefGroup = 4D46730B3087D0F8008B5378;
+			productRefGroup = 4D4673153087D0F8008B5378 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -123,8 +120,6 @@
 		4D4673103087D0F8008B5378 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			files = (
-				60A337C2308F454B00249400 /* MyApp.swift in Sources */,
-				60A337C4308F466600249400 /* Activitypage.swift in Sources */,
 			);
 		};
 /* End PBXSourcesBuildPhase section */
@@ -313,7 +308,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "thelaunch_13-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "thelaunch_13/thelaunch_13-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
