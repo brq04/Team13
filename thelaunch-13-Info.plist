@@ -4,9 +4,9 @@
 <dict>
 	<key>UIAppFonts</key>
 	<array>
-		<string>TheYearofHandicrafts-Bold.otf</string>
 		<string>TheYearofHandicrafts-Medium.otf</string>
 		<string>TheYearofHandicrafts-Regular.otf</string>
+		<string>TheYearofHandicrafts-Bold.otf</string>
 	</array>
 </dict>
 </plist>
