@@ -268,9 +268,6 @@ struct StreakCard: View {
 
                 Spacer()
 
-                Button("تعديل", action: onEditTap)
-                    .font(AppFont.bold(FontSize.edit))
-                    .foregroundStyle(Color.darkGreen)
             }
 
             Spacer(minLength: 0)
