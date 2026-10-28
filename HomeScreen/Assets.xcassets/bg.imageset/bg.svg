@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="402px" height="918px" viewBox="0 0 402 918" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>color 15</title>
+    <defs>
+        <path d="M99.2,0 L302.8,0 C337.523255,0 354.884883,0 368.147411,6.7575955 C379.813461,12.7017447 389.298255,22.1865393 395.242404,33.852589 C402,47.1151169 402,64.4767446 402,99.2 L402,818.8 C402,853.523255 402,870.884883 395.242404,884.147411 C389.298255,895.813461 379.813461,905.298255 368.147411,911.242404 C354.884883,918 337.523255,918 302.8,918 L99.2,918 C64.4767446,918 47.1151169,918 33.852589,911.242404 C22.1865393,905.298255 12.7017447,895.813461 6.7575955,884.147411 C0,870.884883 0,853.523255 0,818.8 L0,99.2 C0,64.4767446 0,47.1151169 6.7575955,33.852589 C12.7017447,22.1865393 22.1865393,12.7017447 33.852589,6.7575955 C47.1151169,0 64.4767446,0 99.2,0 Z" id="path-1"></path>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-2">
+            <stop stop-color="#F7EFDE" offset="0%"></stop>
+            <stop stop-color="#EFEAE3" stop-opacity="0.03" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-3">
+            <stop stop-color="#E1EBEA" offset="0%"></stop>
+            <stop stop-color="#E1EBEA" stop-opacity="0.06" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-4">
+            <stop stop-color="#EDF1F2" offset="0%"></stop>
+            <stop stop-color="#E1EBEA" stop-opacity="0" offset="100%"></stop>
+        </radialGradient>
+        <radialGradient cx="50%" cy="50%" fx="50%" fy="50%" r="50%" id="radialGradient-5">
+            <stop stop-color="#E7E1D5" offset="0%"></stop>
+            <stop stop-color="#EFEAE3" stop-opacity="0" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="color-15" stroke="none" fill="none" xlink:href="#path-1" fill-rule="evenodd">
+        <use fill="#FFFFFF" xlink:href="#path-1"></use>
+        <circle id="Oval-3" fill="url(#radialGradient-2)" cx="96" cy="269" r="384"></circle>
+        <circle id="Oval-6" fill="url(#radialGradient-3)" cx="406" cy="153" r="251"></circle>
+        <circle id="Oval-6" fill="url(#radialGradient-4)" cx="118" cy="221" r="251"></circle>
+        <circle id="Oval-4" fill-opacity="0.68" fill="url(#radialGradient-5)" cx="193.5" cy="836" r="342.5"></circle>
+    </g>
+</svg>
