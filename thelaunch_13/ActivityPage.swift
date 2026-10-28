@@ -3,29 +3,29 @@ import SwiftData
 
 // MARK: - الأنشطة الأولية (تنحفظ بالقاعدة أول تشغيل فقط)
 var sampleActivities: [Activity] { [
-    // الجولة الأولى
-    Activity(.food, "نعمة محفوظة", "استهلك وجباتك بوعي واقتصر على قدر حاجتك، حفظاً للنعمة وترشيداً للاستهلاك", 15, tag: "ترشيد الغذاء"),
-    Activity(.transport, "خُطى نقية", "استبدل المركبة بالمشي للمسافات القريبة، لتقليل الانبعاثات وتعزيز الصحة البدنية", 30, tag: "تنقل نظيف"),
-    Activity(.recycle, "فرز من المصدر", "خصص حاويات لفرز الورق والبلاستيك في منزلك، دعماً لعملية إعادة التدوير", 20, tag: "فرز النفايات"),
-    Activity(.waste, "حدّ من البلاستيك", "استخدم القارورة المستدامة بدلاً من المنتجات البلاستيكية أحادية الاستخدام", 15, tag: "تقليل البلاستيك"),
+    // التنقل
+    Activity(.transport, "استخدام النقل العام", "استخدم المترو أو الحافلة بدلًا من السيارة للوصول إلى وجهتك.", 25, tag: "تنقل نظيف"),
+    Activity(.transport, "المشي بدلًا من القيادة", "اذهب سيرًا إلى وجهتك عندما يتوفّر مسار آمن وتكون الأجواء مناسبة.", 30, tag: "تنقل نظيف"),
 
-    // الجولة الثانية
-    Activity(.food, "حفظ النعمة", "قدّم الضيافة بقدر الحاجة، وساهم في توجيه الفائض عبر المنصات والمؤسسات المعتمدة", 30, tag: "حفظ النعمة"),
-    Activity(.transport, "المشي إلى المسجد", "التزم بالمشي أداءً للعبادة وتعزيزاً للنشاط البدني ونقاء البيئة المحيطة", 20, tag: "حياة صحية"),
-    Activity(.recycle, "التخلص الآمن من الإلكترونيات", "سلّم البطاريات والأجهزة التالفة لمراكز الجمع المخصصة لمنع التلوث البيئي", 30, tag: "نفايات إلكترونية"),
-    Activity(.waste, "ترشيد استهلاك المياه", "أغلق صنبور المياه أثناء تنظيف الأسنان لتجنب هدر الموارد المائية", 20, tag: "ترشيد المياه"),
+    // التدوير
+    Activity(.recycle, "فرز النفايات", "افصل الورق والبلاستيك والمعادن عن بقية النفايات لتسهيل إعادة تدويرها.", 20, tag: "فرز النفايات"),
+    Activity(.recycle, "التخلّص الآمن من الأجهزة الإلكترونية", "سلّم الأجهزة الإلكترونية التالفة والبطاريات إلى نقاط الجمع المخصّصة لها.", 30, tag: "نفايات إلكترونية"),
+    Activity(.recycle, "الحدّ من استخدام البلاستيك", "استخدم قارورة وأكياسًا قابلة لإعادة الاستخدام بدلًا من المنتجات البلاستيكية أحادية الاستخدام.", 15, tag: "تقليل البلاستيك"),
+    Activity(.recycle, "المساهمة المجتمعية", "تبرّع بالملابس والأثاث الصالح للاستخدام ليستفيد منها الآخرون.", 25, tag: "عمل مجتمعي"),
 
-    // الجولة الثالثة
-    Activity(.food, "خيارات غذائية مستدامة", "استبدل الأطعمة المصنعة بالمنتجات الطبيعية كالتمر والمكسرات لدعم الصحة والبيئة", 15, tag: "غذاء صحي"),
-    Activity(.transport, "استخدام النقل العام", "اعتمد على المترو أو الحافلات في تنقلاتك لتقليل الازدحام المروري والبصمة الكربونية", 25, tag: "نقل عام"),
-    Activity(.recycle, "تدوير العبوات", "اجمع العلب المعدنية والزجاجية واكفل وضعها في حاويات إعادة التدوير", 20, tag: "تدوير العبوات"),
-    Activity(.waste, "كفاءة الطاقة", "اضبط أجهزة التكييف على درجة ٢٤° مئوية وأغلقها عند مغادرة المكان لترشيد الطاقة", 25, tag: "ترشيد الطاقة"),
+    // الطعام
+    Activity(.food, "إعداد كميات مناسبة", "حضّر من الطعام ما يكفي حاجتك لتقليل الفائض.", 15, tag: "ترشيد الغذاء"),
+    Activity(.food, "الاستفادة من بقايا الطعام", "استخدم بقايا الطعام الصالحة للأكل في إعداد وجبة أخرى.", 20, tag: "حفظ النعمة"),
+    Activity(.food, "التخطيط لشراء الطعام", "تحقّق مما لديك واكتب قائمة باحتياجاتك قبل التسوّق.", 20, tag: "حفظ النعمة"),
+    Activity(.food, "استخدام الأطعمة الأقرب انتهاءً", "رتّب الأطعمة حسب تاريخ صلاحيتها واستخدم الأقرب انتهاءً أولًا.", 20, tag: "حفظ النعمة"),
 
-    // الجولة الرابعة
-    Activity(.food, "دعم المنتجات المحلية", "اختر المنتجات الزراعية المحلية الموسمية لتقليل التكاليف البيئية لعمليات النقل", 20, tag: "منتج محلي"),
-    Activity(.transport, "ممارسة المشي اليومي", "خصص ٣٠ دقيقة يومياً للمشي في المسارات المخصصة لتعزيز جودة الحياة", 20, tag: "حياة صحية"),
-    Activity(.recycle, "المساهمة المجتمعية", "تبرع بالملابس والأثاث الصالح للاستخدام لدعم الفئات المستحقة وتعزيز التدوير", 25, tag: "عمل مجتمعي"),
-    Activity(.waste, "مبادرة السعودية الخضراء", "شارك في حملات التشجير والنظافة البيئية تسهم في تحقيق أهداف الاستدامة الوطنية", 40, tag: "السعودية الخضراء"),
+    // ترشيد الاستهلاك
+    Activity(.waste, "ترشيد استهلاك المياه", "قلّل من هدر المياه المحلّاة في استخداماتك اليومية.", 20, tag: "ترشيد المياه"),
+    Activity(.waste, "إطفاء الأنوار غير المستخدمة", "أطفئ الأنوار عند مغادرة الغرفة أو عندما تكفي الإضاءة الطبيعية.", 15, tag: "ترشيد الطاقة"),
+    Activity(.waste, "إطفاء المكيّف عند الخروج", "أطفئ المكيّف عند مغادرة المنزل إذا لم يكن أحد بحاجة إليه.", 25, tag: "ترشيد الطاقة"),
+
+    // أخرى
+    Activity(.other, "مبادرة السعودية الخضراء", "شارك في حملات التشجير والنظافة البيئية للمساهمة في تحقيق أهداف الاستدامة الوطنية.", 40, tag: "السعودية الخضراء"),
 ]}
 
 // MARK: - الشاشة الرئيسية
@@ -86,8 +86,9 @@ struct Activitypage: View {
                 LazyVStack(spacing: 18) {
                     ForEach(visible, id: \.id) { a in
                         let look = a.category.look
-                        Card(icon: look.icon, color: look.color, bg: look.bg, tags: [a.tag ?? look.tag, "+" + arabic(a.points) + " نقطة"],
-                             title: a.title, details: a.details, isOn: selected.contains(a.id))
+                        Card(icon: look.icon, color: look.color, bg: look.bg, tags: [a.category.rawValue, "+" + arabic(a.points) + " نقطة"],
+                             title: a.title, details: a.details, isOn: selected.contains(a.id),
+                             plain: a.isCustom)
                             .onTapGesture { toggle(a.id) }
                     }
                     if filter == .all || filter == .other {
@@ -97,21 +98,22 @@ struct Activitypage: View {
                     }
                 }
                 .padding(.top, 24)
-
-                if !isEditing {
-                    durationRow
-                        .padding(.top, 22)
-                }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 24)
         }
         .background(ScreenBackground())
         .safeAreaInset(edge: .bottom) {
-            GreenButton(text: isEditing ? "حفظ التعديل" : "تأكيد", size: 24, isOn: !selected.isEmpty) { confirm() }
-                .padding(.horizontal, 57)
-                .padding(.vertical, 12)
-                .background(LinearGradient(colors: [.clear, Color(hex: "#F7F6F2")], startPoint: .top, endPoint: .center).ignoresSafeArea())
+            VStack(spacing: 12) {
+                if !isEditing {
+                    durationRow
+                        .padding(.horizontal, 16)
+                }
+                GreenButton(text: isEditing ? "حفظ التعديل" : "تأكيد", size: 24, isOn: !selected.isEmpty) { confirm() }
+                    .padding(.horizontal, 57)
+            }
+            .padding(.vertical, 12)
+            .background(Color.white.ignoresSafeArea(edges: .bottom))
         }
         .environment(\.layoutDirection, .rightToLeft)
         .sheet(isPresented: $showAdd) {
@@ -164,7 +166,7 @@ struct Activitypage: View {
 
     private func stepButton(_ symbol: String, _ change: Int) -> some View {
         Button {
-            days = min(30, max(1, days + change))
+            days = min(7, max(1, days + change))
         } label: {
             Image(systemName: symbol)
                 .font(.system(size: 15, weight: .bold))
@@ -226,7 +228,7 @@ struct Card: View {
     let icon: String, color: Color, bg: Color
     var tags: [String] = []
     let title: String, details: String
-    var isOn = false, dashed = false
+    var isOn = false, dashed = false, plain = false
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
@@ -264,7 +266,7 @@ struct Card: View {
         }
         .padding(14)
         .frame(minHeight: 100)
-        .background(RoundedRectangle(cornerRadius: 16).fill(Color.cream))
+        .background(RoundedRectangle(cornerRadius: 16).fill(plain ? Color.white : Color.cream))
         .overlay(RoundedRectangle(cornerRadius: 16).strokeBorder(Color.sage, style: StrokeStyle(lineWidth: 1, dash: dashed ? [5, 4] : [])))
     }
 }

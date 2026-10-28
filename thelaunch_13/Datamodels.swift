@@ -3,15 +3,15 @@ import SwiftData
 
 // MARK: - التصنيف (يربط صفحة الأنشطة بصفحة الإحصائيات)
 enum ActivityCategory: String, CaseIterable {
-    case all = "الكل", transport = "تنقل", recycle = "تدوير", food = "طعام", waste = "تقليل الهدر", other = "أخرى"
+    case all = "الكل", transport = "تنقل", recycle = "تدوير", food = "طعام", waste = "ترشيد الاستهلاك", other = "أخرى"
 
     var look: (icon: String, color: Color, bg: Color, tag: String) {
         switch self {
-        case .transport: return ("bicycle", Color(hex: "#2F6FED"), Color(hex: "#E1EDFC"), "تنقل مستدام")
+        case .transport: return ("bus.fill", Color(hex: "#2F6FED"), Color(hex: "#E1EDFC"), "تنقل مستدام")
         case .recycle:   return ("arrow.3.trianglepath", Color(hex: "#A24FE0"), Color(hex: "#EEDDF7"), "إدارة النفايات")
-        case .food:      return ("carrot", Color(hex: "#F5A12B"), Color(hex: "#FDEFD9"), "غذاء مستدام")
-        case .waste:     return ("leaf", Color.darkGreen, Color.lightGreen.opacity(0.5), "ترشيد الموارد")
-        default:         return ("sparkles", Color.darkGreen, Color.lightGreen.opacity(0.5), "مبادرة شخصية")
+        case .food:      return ("fork.knife", Color(hex: "#F5A12B"), Color(hex: "#FDEFD9"), "غذاء مستدام")
+        case .waste:     return ("bolt.fill", Color.darkGreen, Color.lightGreen.opacity(0.5), "ترشيد الموارد")
+        default:         return ("leaf.fill", Color.darkGreen, Color.lightGreen.opacity(0.5), "مبادرة شخصية")
         }
     }
 

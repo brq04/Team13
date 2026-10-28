@@ -11,6 +11,11 @@ import SwiftUI
 
 
 struct DetailsPage: View {
+    // ✅ تغيير 1: النشاط اللي ضغطتي عليه. بدونه الصفحة ما تعرف وش تعرض
+    let activity: Activity
+    // ✅ تغيير 2: عشان نرجع للصفحة اللي قبلها (زر السهم)
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         ZStack(alignment: .top) {
 
@@ -79,8 +84,8 @@ struct DetailsPage: View {
         VStack(alignment: .trailing, spacing: 8) {
    
             
-            
-            Text("إعادة تدوير")
+            //tag
+            Text(activity.category.rawValue)
                 .font(.system(size: 12, weight: .regular))
                 .foregroundStyle(Color("DarkGreen1"))
             //   الخلفيه البيضاويه
@@ -89,8 +94,8 @@ struct DetailsPage: View {
                 .background(Color("LightGreen2").opacity(0.1), in: Capsule())
             
             
-            
-            Text("فرز النفايات")
+            //Title of the activity
+            Text(activity.title)
                 .font(.custom("TheYearofHandicrafts-medium", size: 24))
                 .foregroundStyle(Color("DarkGreen2"))
             
@@ -98,7 +103,8 @@ struct DetailsPage: View {
             
             ZStack{
                 
-                Text("في هذه المهمة، ستقوم بفرز النفايات من خلال فصل المواد القابلة لإعادة التدوير، مثل الورق والبلاستيك والمعادن، ووضع كل نوع في الحاوية المخصصة له، مما يساعد على تسهيل عملية إعادة التدوير وتقليل النفايات.")
+                // ✅ تغيير 5: بدل الوصف الثابت، صار يطلع وصف النشاط
+                Text(activity.details)
                 
                     .font(.system(size: 16, weight: .light))
                     .multilineTextAlignment(.trailing)
@@ -188,26 +194,7 @@ struct DetailsPage: View {
         .frame(maxWidth: .infinity)
         .padding(.top, 10)
             
-            
-            Button{
-                //action
-            }
-            label:{
-                HStack{
-                    Text("أضــف الــمهمـــة")
-                        .font(.custom("TheYearofHandicrafts-regular", size: 18))
-                    Image(systemName: "plus")
-                }
-                
-                .foregroundStyle(.white)
-                .padding(.horizontal, 24)
-                .padding(.vertical, 12)
-                
-                .background(Color("DarkGreen2"), in: RoundedRectangle(cornerRadius: 10))
-            }
-                
-       .frame(maxWidth: .infinity)
-       .padding(.bottom, 20 )
+            // ✅ تغيير 6: حذفنا زر "أضف المهمة" من هنا
                             }
                         }
     .frame(width: 277, alignment: .trailing)
@@ -219,7 +206,8 @@ struct DetailsPage: View {
         
         
     Button {
-        //action
+        // ✅ تغيير 7: بدل //action. زر السهم يرجعك للصفحة اللي قبلها
+        dismiss()
     } label: {
         Image(systemName: "arrow.right")
                             }
@@ -240,10 +228,12 @@ struct DetailsPage: View {
         }
         
         .preferredColorScheme(.light)
+        // ✅ تغيير 8: يخفي زر الرجوع حق النظام، لأن عندك زر السهم الخاص فيك (عشان ما يطلع زرين)
+        .navigationBarBackButtonHidden(true)
                 }
             }
 
+// ✅ تغيير 9: الصفحة صارت تطلب نشاط، فنعطيها نشاط تجريبي عشان المعاينة تشتغل
 #Preview {
-    DetailsPage()
+    DetailsPage(activity: Activity(.recycle, "فرز النفايات", "وصف تجريبي", 20, tag: "فرز النفايات"))
 }
-
