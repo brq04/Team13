@@ -11,6 +11,7 @@ struct StatsSnapshot {
     var totalDays = 7
     var doneDays: Set<Int> = []         // أيام السلسلة اللي سجلتي فيها
     var completedStreaks = 0
+    var hasActive = false
 }
 
 enum Backend {
@@ -80,6 +81,7 @@ enum Backend {
 
     // MARK: - الإحصائيات (دالة صافية: تاخذ البيانات وترجع اللي تحتاجه الصفحة)
     static func snapshot(completions: [Completion], challenges: [Challenge]) -> StatsSnapshot {
+        
         var s = StatsSnapshot()
         let today = today()
 
@@ -88,6 +90,7 @@ enum Backend {
         s.completedStreaks = challenges.filter(\.isCompleted).count
 
         if let c = challenges.first(where: { $0.isActive && $0.endDate >= today }) {
+            s.hasActive = true
             s.totalDays = c.durationDays
             let elapsed = cal.dateComponents([.day], from: c.startDate, to: today).day ?? 0
             s.currentDay = min(c.durationDays, max(1, elapsed + 1))
@@ -113,5 +116,12 @@ enum Backend {
                 )
             }
             .sorted { $0.points != $1.points ? $0.points > $1.points : $0.title < $1.title }
+    }
+    
+    //للأنشطه المختاره في صفحة التعديل
+    static func activeSelection(_ challenges: [Challenge]) -> (ids: Set<UUID>, days: Int)? {
+        let t = today()
+        guard let c = challenges.first(where: { $0.isActive && $0.endDate >= t }) else { return nil }
+        return (Set(c.activityIDs), c.durationDays)
     }
 }

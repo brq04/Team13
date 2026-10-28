@@ -77,16 +77,46 @@ struct ContentView: View {
 }
     
     
-    
+    private var dailyProgressCard: some View {
+        NavigationLink {
+            if snapshot.hasActive {
+                // فيه سلسلة: إحصائيات اليوم
+                StatsContentView()
+            } else {
+                // ما فيه سلسلة: اختيار الأنشطة
+                Activitypage()
+                    .navigationBarBackButtonHidden(true)
+                    .toolbar(.hidden, for: .navigationBar)
+            }
+        } label: {
+            dailyProgressCardContent
+        }
+        .buttonStyle(.plain)   // عشان ما يتغير لون النصوص
+    }
     
     
   //dailyProgressCard
-    private var dailyProgressCard: some View {
+    private var dailyProgressCardContent: some View {
         let s = snapshot
-        // نفس منطق StreakCard: صف من ٧ أيام، وينتقل للأسبوع التالي لو الهدف أطول
-        let start = ((s.currentDay - 1) / 7) * 7 + 1
-        let end = max(start, min(start + 6, s.totalDays))
-        let visibleDays = Array(start...end)
+
+        // بدون سلسلة: ٧ أيام رمادية. معها: عدد أيام الهدف بحد أقصى ٧
+        // (لو الهدف أطول من ٧ ينتقل الصف للأسبوع التالي)
+        let visibleDays: [Int] = {
+            guard s.hasActive else { return Array(1...7) }
+            let start = ((s.currentDay - 1) / 7) * 7 + 1
+            let end = max(start, min(start + 6, s.totalDays))
+            return Array(start...end)
+        }()
+
+        let subtitle: String = {
+            guard s.hasActive else {
+                return "اختر نشاطًا وحدّد مدة هدفك لتبدأ 🌱"
+            }
+            let today = "اليوم \(s.currentDay.arabicDigits) من \(s.totalDays.arabicDigits)"
+            return s.doneDays.contains(s.currentDay)
+                ? "\(today) · أنجز نشاط اليوم 🌿"
+                : "\(today) · سجّل نشاطك اليوم 🌱"
+        }()
 
         return VStack(alignment: .trailing, spacing: 8) {
 
@@ -94,41 +124,32 @@ struct ContentView: View {
                 Text("تقدّمك اليومي")
                     .font(.custom("TheYearofHandicrafts-Bold", size: 20))
 
-                Text(s.doneDays.isEmpty
-                     ? "ابدأ سلسلتك اليوم 🌱"
-                     : "سلسلتك الحالية \(s.doneDays.count.arabicDigits) \(dayWord(s.doneDays.count)) متتالية 🌿")
+                Text(subtitle)
                     .font(.custom("TheYearofHandicrafts-Light", size: 16))
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
 
             HStack(spacing: 8) {
                 ForEach(visibleDays.reversed(), id: \.self) { day in
-                    let state: DayState = day == s.currentDay
-                        ? .current
-                        : (s.doneDays.contains(day) ? .done : .upcoming)
+                    let state: DayState = {
+                        guard s.hasActive else { return .upcoming }
+                        if day < s.currentDay { return .done }       // أيام عدّت
+                        if day == s.currentDay { return .current }   // اليوم
+                        return .upcoming                             // لسا
+                    }()
 
                     VStack(spacing: 2) {
                         Text("يوم")
                         Text(day.arabicDigits)
                     }
                     .font(.custom("TheYearofHandicrafts-Bold", size: 12))
-                    .foregroundStyle(state == .done ? Color.white : Color.black)
+                    .foregroundStyle(Color.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 55)
                     .background(fillColor(for: state), in: RoundedRectangle(cornerRadius: 10))
-                    .overlay(alignment: .top) {
-                        if state == .current {
-                            Image("celeb_icon")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: Layout.celebIconSize, height: Layout.celebIconSize)
-                                .offset(y: Layout.celebIconOffset)
-                        }
-                    }
                 }
             }
             .padding(12)
-            .padding(.top, 8)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay {
@@ -141,26 +162,20 @@ struct ContentView: View {
             RoundedRectangle(cornerRadius: 36)
                 .fill(Color(red: 0.96, green: 0.97, blue: 0.91))
         )
-        .animation(.easeInOut, value: s.doneDays)
+        .animation(.easeInOut, value: s.currentDay)
+        .animation(.easeInOut, value: s.hasActive)
     }
 
+    // نفس ألوان الصورة
     private func fillColor(for state: DayState) -> Color {
         switch state {
-        case .done: return .darkGreen
-        case .current: return .lightGreen
-        case .upcoming: return .upcomingGray
+        case .done:     return Color(red: 0.57, green: 0.70, blue: 0.53)  // أخضر
+        case .current:  return Color(red: 0.75, green: 0.83, blue: 0.72)  // أخضر فاتح
+        case .upcoming: return Color(red: 0.88, green: 0.88, blue: 0.88)  // رمادي
         }
     }
 
-    private func dayWord(_ n: Int) -> String {
-        switch n {
-        case 1: return "يوم"
-        case 2: return "يومان"
-        case 3...10: return "أيام"
-        default: return "يومًا"
-        }
-    }
-
+   
     
     
     

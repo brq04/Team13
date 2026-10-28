@@ -39,6 +39,12 @@ struct Activitypage: View {
     @State private var showAdd = false
     @State private var confirmed = false
     @Environment(\.dismiss) private var dismiss
+    @Query private var challenges: [Challenge]
+
+    private var activeSelection: (ids: Set<UUID>, days: Int)? {
+        Backend.activeSelection(challenges)
+    }
+    private var isEditing: Bool { activeSelection != nil }
     
     var body: some View {
         let visible = activities.filter {
@@ -92,15 +98,17 @@ struct Activitypage: View {
                 }
                 .padding(.top, 24)
 
-                durationRow
-                    .padding(.top, 22)
+                if !isEditing {
+                    durationRow
+                        .padding(.top, 22)
+                }
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 24)
         }
         .background(ScreenBackground())
         .safeAreaInset(edge: .bottom) {
-            GreenButton(text: "تأكيد", size: 24, isOn: !selected.isEmpty) { confirm() }
+            GreenButton(text: isEditing ? "حفظ التعديل" : "تأكيد", size: 24, isOn: !selected.isEmpty) { confirm() }
                 .padding(.horizontal, 57)
                 .padding(.vertical, 12)
                 .background(LinearGradient(colors: [.clear, Color(hex: "#F7F6F2")], startPoint: .top, endPoint: .center).ignoresSafeArea())
@@ -110,11 +118,21 @@ struct Activitypage: View {
             AddSheet { title, details, category in add(title, details, category) }
                 .environment(\.layoutDirection, .rightToLeft)
         }
-        .alert("تم تسجيل أنشطتك 🌿", isPresented: $confirmed) {
-            Button("حسنًا", role: .cancel) {}
+        
+        .alert(isEditing ? "تم حفظ التعديل 🌿" : "تم تسجيل أنشطتك 🌿", isPresented: $confirmed) {
+            Button("حسنًا", role: .cancel) { dismiss() }
         }
+        
         .task { Backend.seedIfNeeded(context, with: sampleActivities) }
-        .onAppear { if selected.isEmpty, let first = activities.first { selected = [first.id] } }
+        .onAppear {
+            guard selected.isEmpty else { return }
+            if let s = activeSelection {
+                selected = s.ids
+                days = s.days
+            } else if let first = activities.first {
+                selected = [first.id]
+            }
+        }
     }
 
     private var durationRow: some View {
@@ -167,7 +185,7 @@ struct Activitypage: View {
     // زر التأكيد: يسجل إنجاز اليوم ويبدأ/يكمل السلسلة
     private func confirm() {
         Backend.confirm(activities.filter { selected.contains($0.id) }, days: days, in: context)
-        selected = []
+        if !isEditing { selected = [] }
         confirmed = true
     }
 }
