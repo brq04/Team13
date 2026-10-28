@@ -84,7 +84,7 @@ enum TextStyle {
 }
 
 // MARK: - الشاشة الرئيسية
-struct ContentView: View {
+struct StatsContentView: View {
     @State private var selectedTab = 0
 
     let tabs = ["إحصائيات اليوم", "جميع الإحصائيات"]
@@ -720,7 +720,7 @@ struct StatsChartSection: View {
 
 // MARK: - المعاينة
 #Preview {
-    ContentView()
+    StatsContentView()
         .modelContainer(for: [Activity.self, Completion.self, Challenge.self], inMemory: true)
 }
 

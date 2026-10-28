@@ -6,19 +6,20 @@ struct MainTabView: View {
     @State private var selectedTab = 0
 
     var body: some View {
-        ZStack(alignment: .bottom) {
+        NavigationStack {
+            ZStack(alignment: .bottom) {
 
-            if selectedTab == 0 {
-                ContentView()
-            } else {
-               // Text("صفحة الخريطة")
+                if selectedTab == 0 {
+                    ContentView()
+                } else {
+                    Text("صفحة الخريطة")
+                }
+
+                customTabBar
+                    .padding(.bottom, 50)
             }
-
-            customTabBar
-                .padding(.bottom, 50)
         }
     }
-    
     
     
     // MARK: - Custom Tab Bar

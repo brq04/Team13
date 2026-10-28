@@ -38,19 +38,29 @@ struct Activitypage: View {
     @State private var days = 1
     @State private var showAdd = false
     @State private var confirmed = false
-
+    @Environment(\.dismiss) private var dismiss
+    
     var body: some View {
-        let visible = activities.filter { filter == .all || $0.category == filter || (filter == .other && $0.isCustom) }
+        let visible = activities.filter {
+            filter == .all ||
+            $0.category == filter ||
+            (filter == .other && $0.isCustom)
+        }
 
-        ScrollView(showsIndicators: false) {
+        return ScrollView(showsIndicators: false) {
             VStack(alignment: .leading, spacing: 0) {
 
                 HStack {
-                    Image(systemName: "arrow.right")
-                        .font(.system(size: 20, weight: .semibold))
-                        .foregroundColor(.darkGreen)
-                        .frame(width: 46, height: 46)
-                        .background(Circle().fill(Color(hex: "#E6EAE3")))
+                    Button {
+                        dismiss()
+                    } label: {
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(.darkGreen)
+                            .frame(width: 46, height: 46)
+                            .background(Circle().fill(Color(hex: "#E6EAE3")))
+                    }
+
                     Spacer()
                 }
                 .padding(.top, 14)
@@ -67,7 +77,7 @@ struct Activitypage: View {
                 Tabs(selection: $filter)
                     .padding(.top, 20)
 
-                VStack(spacing: 18) {
+                LazyVStack(spacing: 18) {
                     ForEach(visible, id: \.id) { a in
                         let look = a.category.look
                         Card(icon: look.icon, color: look.color, bg: look.bg, tags: [a.tag ?? look.tag, "+" + arabic(a.points) + " نقطة"],

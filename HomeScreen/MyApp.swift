@@ -1,9 +1,9 @@
-import SwiftUI
-
-@main struct MyApp: App {
-    var body: some Scene {
-        WindowGroup {
-            MainTabView()
-        }
-    }
-}
+//import SwiftUI
+//
+//@main struct MyApp: App {
+//    var body: some Scene {
+//        WindowGroup {
+//            MainTabView()
+//        }
+//    }
+//}

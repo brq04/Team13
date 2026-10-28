@@ -12,7 +12,7 @@ struct HabitsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            RootView()
+            MainTabView()
                 .modelContainer(container)
         }
     }
@@ -26,7 +26,7 @@ struct RootView: View {
         TabView {
             Activitypage()
                 .tabItem { Label("الأنشطة", systemImage: "checklist") }
-            ContentView()
+            StatsContentView()
                 .tabItem { Label("الإحصائيات", systemImage: "chart.pie") }
         }
         .id(refresh)

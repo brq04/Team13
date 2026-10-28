@@ -1,7 +1,14 @@
 import SwiftUI
-import Playgrounds
+import SwiftData
 
 struct ContentView: View {
+    @Query private var completions: [Completion]
+    @Query private var challenges: [Challenge]
+    private var totalPoints: Int { completions.reduce(0) { $0 + $1.points } }
+    private var snapshot: StatsSnapshot {
+        Backend.snapshot(completions: completions, challenges: challenges)
+    }
+    
     var body: some View {
         ZStack {
             
@@ -19,7 +26,7 @@ struct ContentView: View {
                             HStack(spacing: 12) {
 
                                 // Points badge
-                                Text("15 نقطة")
+                                Text("\(totalPoints.arabicDigits) نقطة")
                                     .font(.system(size: 16, weight: .medium))
                                     .padding(.horizontal, 14)
                                     .padding(.vertical, 8)
@@ -75,39 +82,53 @@ struct ContentView: View {
     
   //dailyProgressCard
     private var dailyProgressCard: some View {
-        VStack(alignment: .trailing, spacing: 8) {
+        let s = snapshot
+        // نفس منطق StreakCard: صف من ٧ أيام، وينتقل للأسبوع التالي لو الهدف أطول
+        let start = ((s.currentDay - 1) / 7) * 7 + 1
+        let end = max(start, min(start + 6, s.totalDays))
+        let visibleDays = Array(start...end)
 
-            // Title and streak
+        return VStack(alignment: .trailing, spacing: 8) {
+
             VStack(alignment: .trailing, spacing: 4) {
                 Text("تقدّمك اليومي")
-                    .font(.custom("TheYearofHandicrafts-Bold",size: 20))
+                    .font(.custom("TheYearofHandicrafts-Bold", size: 20))
 
-                Text("سلسلتك الحالية 7 أيام متتالية 🌿")
-                    .font(.custom("TheYearofHandicrafts-Light",size: 16))
+                Text(s.doneDays.isEmpty
+                     ? "ابدأ سلسلتك اليوم 🌱"
+                     : "سلسلتك الحالية \(s.doneDays.count.arabicDigits) \(dayWord(s.doneDays.count)) متتالية 🌿")
+                    .font(.custom("TheYearofHandicrafts-Light", size: 16))
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
 
-            // Seven-day tracker
             HStack(spacing: 8) {
-                ForEach((1...7).reversed(), id: \.self) { day in
+                ForEach(visibleDays.reversed(), id: \.self) { day in
+                    let state: DayState = day == s.currentDay
+                        ? .current
+                        : (s.doneDays.contains(day) ? .done : .upcoming)
+
                     VStack(spacing: 2) {
                         Text("يوم")
-                        Text("\(day)")
+                        Text(day.arabicDigits)
                     }
                     .font(.custom("TheYearofHandicrafts-Bold", size: 12))
+                    .foregroundStyle(state == .done ? Color.white : Color.black)
                     .frame(maxWidth: .infinity)
                     .frame(height: 55)
-                    .background(
-                        day <= 3
-                        ? Color(red: 0.57, green: 0.70, blue: 0.53)
-                        : day == 4
-                        ? Color(red: 0.75, green: 0.83, blue: 0.72)
-                        : Color(red: 0.88, green: 0.88, blue: 0.88)
-                    )
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .background(fillColor(for: state), in: RoundedRectangle(cornerRadius: 10))
+                    .overlay(alignment: .top) {
+                        if state == .current {
+                            Image("celeb_icon")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: Layout.celebIconSize, height: Layout.celebIconSize)
+                                .offset(y: Layout.celebIconOffset)
+                        }
+                    }
                 }
             }
             .padding(12)
+            .padding(.top, 8)
             .background(.white)
             .clipShape(RoundedRectangle(cornerRadius: 20))
             .overlay {
@@ -120,6 +141,24 @@ struct ContentView: View {
             RoundedRectangle(cornerRadius: 36)
                 .fill(Color(red: 0.96, green: 0.97, blue: 0.91))
         )
+        .animation(.easeInOut, value: s.doneDays)
+    }
+
+    private func fillColor(for state: DayState) -> Color {
+        switch state {
+        case .done: return .darkGreen
+        case .current: return .lightGreen
+        case .upcoming: return .upcomingGray
+        }
+    }
+
+    private func dayWord(_ n: Int) -> String {
+        switch n {
+        case 1: return "يوم"
+        case 2: return "يومان"
+        case 3...10: return "أيام"
+        default: return "يومًا"
+        }
     }
 
     
@@ -132,16 +171,27 @@ struct ContentView: View {
 
             HStack(spacing: 16) {
 
-                Image(.statistics)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: cardWidth)
+                // Statistics
+                NavigationLink {
+                    StatsContentView()
+                } label: {
+                    Image(.statistics)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: cardWidth)
+                }
 
-                Image(.activities)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: cardWidth)
-            }
+                // Activities
+                NavigationLink {
+                    Activitypage()
+                        .navigationBarBackButtonHidden(true)
+                        .toolbar(.hidden, for: .navigationBar)
+                } label: {
+                    Image(.activities)
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: cardWidth)
+                }            }
         }
         .frame(height: 140)
     }
@@ -217,9 +267,9 @@ struct ContentView: View {
     
 }
 #Preview {
-    MainTabView()
+    NavigationStack {
+        MainTabView()
+    }
+    .modelContainer(for: [Activity.self, Completion.self, Challenge.self], inMemory: true)
 }
 
-#Playground {
-    _ = 1 + 2
-}
