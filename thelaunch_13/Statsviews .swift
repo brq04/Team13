@@ -12,14 +12,16 @@ struct TodayStatsView: View {
         let s = Backend.snapshot(completions: completions, challenges: challenges)
 
         VStack(spacing: 0) {
-            StreakCard(currentDay: s.currentDay, totalDays: s.totalDays, doneDays: s.doneDays)
+            StreakCard(currentDay: s.currentDay, totalDays: s.totalDays, doneDays: s.doneDays, hasActive: s.hasActive, planned: s.plannedToday)
                 .padding(.top, 45)
 
             // الدونات من نقاط اليوم
             StatsChartSection(stats: CategoryStat.totals(from: s.todayTasks) { $0.points })
                 .padding(.top, 32)
 
-            TasksGrid(tasks: Array(s.todayTasks.prefix(4)), kind: .dailyPoints)
+            TasksGrid(tasks: Array(s.todayTasks.prefix(4)), kind: .dailyPoints,
+                      emptyText: s.plannedToday ? "أنشطتك مضافة، تنحسب لما تأكّد إنجازها 🌿"
+                                                : "ما فيه أنشطة مسجلة بعد 🌱")
                 .padding(.top, 43)
         }
     }
@@ -63,6 +65,8 @@ struct StreakCard: View {
     let currentDay: Int
     var totalDays = 7
     var doneDays: Set<Int> = []
+    var hasActive = true
+    var planned = false          // أضافت أنشطة اليوم ولسا ما أكدت
     var onEditTap: () -> Void = {}
 
     // نعرض ٧ أيام بالصف، وإذا السلسلة أطول ينتقل الصف للأسبوع التالي
@@ -76,10 +80,12 @@ struct StreakCard: View {
         VStack(spacing: 0) {
             HStack(alignment: .top) {
                 VStack(alignment: .leading, spacing: 2) {
-                    Text("يوم \(currentDay)")
+                    Text(title)
                         .font(AppFont.bold(FontSize.streakTitle))
 
-                    Text("سلستك الحاليه \(doneDays.count) ايام متتالية 🌿")
+                    Text(subtitle)
+                        .lineLimit(1)
+                        .minimumScaleFactor(0.8)
                         .font(TextStyle.streakSubtitle)
                 }
                 Spacer()
@@ -89,7 +95,7 @@ struct StreakCard: View {
 
             HStack(spacing: 9) {
                 ForEach(visibleDays, id: \.self) { day in
-                    DayChip(day: day, state: state(for: day))
+                    DayChip(day: day, state: state(for: day), isToday: hasActive && day == currentDay)
                 }
             }
             .frame(maxWidth: .infinity)
@@ -106,8 +112,24 @@ struct StreakCard: View {
     }
 
     private func state(for day: Int) -> DayState {
-        if day == currentDay { return .current }
+        if !hasActive { return .upcoming }
+        if day == currentDay { return doneDays.contains(day) ? .done : .current }
         return doneDays.contains(day) ? .done : .upcoming
+    }
+
+    // النص يتغير حسب الحالة
+    private var goalComplete: Bool { hasActive && doneDays.count >= totalDays }
+
+    private var title: String {
+        hasActive ? "يوم \(currentDay.arabicDigits) من \(totalDays.arabicDigits)" : "لا توجد سلسلة حالية"
+    }
+
+    private var subtitle: String {
+        guard hasActive else { return "اختر نشاطًا وحدّد مدة هدفك لتبدأ 🌱" }
+        if goalComplete { return "أتممت هدفك: \(totalDays.arabicDays) 🎉" }
+        if doneDays.contains(currentDay) { return "أنجزت نشاط اليوم 🌿" }
+        if planned { return "أكّد إنجاز أنشطتك نهاية اليوم ⏳" }
+        return "سجّل نشاطك اليوم لتكمل سلستك 🌱"
     }
 }
 
@@ -115,10 +137,11 @@ struct StreakCard: View {
 struct TasksGrid: View {
     let tasks: [TaskItem]
     var kind: PillKind = .dailyPoints
+    var emptyText = "ما فيه أنشطة مسجلة بعد 🌱"
 
     var body: some View {
         if tasks.isEmpty {
-            Text("ما فيه أنشطة مسجلة بعد 🌱")
+            Text(emptyText)
                 .font(AppFont.regular(14))
                 .foregroundStyle(Color.darkGreen)
                 .frame(maxWidth: .infinity)

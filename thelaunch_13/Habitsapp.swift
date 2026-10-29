@@ -4,6 +4,7 @@ import SwiftData
 @main
 struct HabitsApp: App {
     let container: ModelContainer
+    @State private var stage = 0   // 0 ترحيب، 1 onboarding، 2 التطبيق (يبدأ من الترحيب كل تشغيل)
 
     init() {
         container = try! ModelContainer(for: Activity.self, Completion.self, Challenge.self)
@@ -12,37 +13,14 @@ struct HabitsApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-                .modelContainer(container)
-        }
-    }
-}
-
-// مؤقت للتجربة: لما تربطينهم بتنقلك الحقيقي احذفيه
-struct RootView: View {
-    @State private var refresh = 0
-
-    var body: some View {
-        TabView {
-            Activitypage()
-                .tabItem { Label("الأنشطة", systemImage: "checklist") }
-            StatsContentView()
-                .tabItem { Label("الإحصائيات", systemImage: "chart.pie") }
-        }
-        .id(refresh)
-        #if DEBUG
-        .overlay(alignment: .topLeading) {
-            // زر تجربة: يقدّم اليوم +١ عشان تشوفين السلسلة تتقدم
-            Button("يوم +١") {
-                Backend.dayOffset += 1
-                refresh += 1
+            Group {
+                switch stage {
+                case 0:  WlcPage { withAnimation { stage = 1 } }
+                case 1:  OnboardingPage { withAnimation { stage = 2 } }
+                default: MainTabView()
+                }
             }
-            .font(.caption.bold())
-            .padding(8)
-            .background(.ultraThinMaterial, in: Capsule())
-            .padding(.leading, 12)
-            .padding(.top, 4)
+            .modelContainer(container)
         }
-        #endif
     }
 }

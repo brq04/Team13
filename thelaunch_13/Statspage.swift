@@ -19,6 +19,18 @@ extension Int {
     }
 }
 
+extension Int {
+    /// يوم / يومان / أيام / يومًا
+    var arabicDays: String {
+        switch self {
+        case 1:     return "يوم واحد"
+        case 2:     return "يومان"
+        case 3...10: return "\(arabicDigits) أيام"
+        default:    return "\(arabicDigits) يومًا"
+        }
+    }
+}
+
 // MARK: - قياسات مشتركة بين كل الصفحات
 enum Layout {
     static let pageMargin: CGFloat = 20
@@ -85,6 +97,7 @@ enum TextStyle {
 
 // MARK: - الشاشة الرئيسية
 struct StatsContentView: View {
+    @Environment(\.dismiss) private var dismiss
     @State private var selectedTab = 0
 
     let tabs = ["إحصائيات اليوم", "جميع الإحصائيات"]
@@ -92,6 +105,19 @@ struct StatsContentView: View {
     var body: some View {
         ScrollView {
             VStack {
+                // زر الرجوع (يمين)
+                HStack {
+                    Spacer()
+                    Button { dismiss() } label: {
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(.darkGreen)
+                            .frame(width: 46, height: 46)
+                            .background(Circle().fill(Color(hex: "#E6EAE3")))
+                    }
+                }
+                .padding(.top, 14)
+
                 // التبويب
                 HStack(spacing: 0) {
                     ForEach(tabs.indices, id: \.self) { index in
@@ -124,7 +150,7 @@ struct StatsContentView: View {
                 .background(Color.white, in: Capsule())
                 .frame(height: 48)
                 .environment(\.layoutDirection, .rightToLeft)
-                .padding(.top, 40)
+                .padding(.top, 16)
 
                 // المحتوى حسب التبويب
                 if selectedTab == 0 {
@@ -137,12 +163,25 @@ struct StatsContentView: View {
             .padding(.bottom, 20)
         }
         .scrollIndicators(.hidden)
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .tabBar)
     }
 }
 
 // MARK: - عنوان "لقد أتممت ٧ سلاسل"
 struct CompletedStreaksHeader: View {
     let count: Int
+
+    // سلسلة واحدة / سلسلتين / ٣ سلاسل / ١١ سلسلة
+    private var countText: String {
+        switch count {
+        case 1:       return "سلسلة واحدة"
+        case 2:       return "سلسلتين"
+        case 0, 3...10: return "\(count.arabicDigits) سلاسل"
+        default:      return "\(count.arabicDigits) سلسلة"
+        }
+    }
 
     var body: some View {
         HStack(spacing: 6) {
@@ -151,7 +190,7 @@ struct CompletedStreaksHeader: View {
                     .font(AppFont.bold(FontSize.statsHeaderSmall))
                     .foregroundStyle(Color.black)
 
-                Text("\(count.arabicDigits) سلاسل")
+                Text(countText)
                     .font(AppFont.bold(FontSize.statsHeaderBig))
                     .foregroundStyle(Color.darkGreen)
             }
@@ -179,11 +218,12 @@ enum DayState {
 struct DayChip: View {
     let day: Int
     let state: DayState
+    var isToday = false
 
     var body: some View {
         VStack(spacing: 2) {
             Text("يوم")
-            Text("\(day)")
+            Text(day.arabicDigits)
         }
         .font(AppFont.bold(FontSize.dayChip))
         .foregroundStyle(state == .done ? Color.white : Color.black)
@@ -193,7 +233,7 @@ struct DayChip: View {
             in: RoundedRectangle(cornerRadius: 10)
         )
         .overlay(alignment: .top) {
-            if state == .current {
+            if state == .current || isToday {
                 Image("celeb_icon")
                     .resizable()
                     .scaledToFit()

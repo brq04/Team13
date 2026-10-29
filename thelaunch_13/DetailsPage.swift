@@ -230,6 +230,8 @@ struct DetailsPage: View {
         .preferredColorScheme(.light)
         // ✅ تغيير 8: يخفي زر الرجوع حق النظام، لأن عندك زر السهم الخاص فيك (عشان ما يطلع زرين)
         .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .navigationBar)
+        .toolbar(.hidden, for: .tabBar)
                 }
             }
 

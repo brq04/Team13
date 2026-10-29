@@ -89,6 +89,7 @@ final class Challenge {
     var activityIDs: [UUID]
     var isActive: Bool
     var isCompleted: Bool
+    var plannedDay: Date?      // اليوم اللي أضافت فيه أنشطتها (خطة اليوم)
 
     var endDate: Date {
         Calendar.current.date(byAdding: .day, value: durationDays - 1, to: startDate) ?? startDate

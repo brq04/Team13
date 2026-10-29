@@ -6,6 +6,17 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4D40DA87309210340039E8C0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		3AB9394E308A01B500F96535 /* thelaunch-13-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "thelaunch-13-Info.plist"; sourceTree = "<group>"; };
 		4D4673143087D0F8008B5378 /* thelaunch_13.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thelaunch_13.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -15,6 +26,16 @@
 		3AB93953308A096A00F96535 /* HomeScreen */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = HomeScreen;
+			sourceTree = "<group>";
+		};
+		4D40DA643091EAEB0039E8C0 /* map */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = map;
+			sourceTree = "<group>";
+		};
+		4D40DA7C309210340039E8C0 /* Privacy - Location When In Use Usage Description. */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Privacy - Location When In Use Usage Description.";
 			sourceTree = "<group>";
 		};
 		4D4673163087D0F8008B5378 /* thelaunch_13 */ = {
@@ -42,9 +63,11 @@
 			isa = PBXGroup;
 			children = (
 				3AB9394E308A01B500F96535 /* thelaunch-13-Info.plist */,
+				4D40DA643091EAEB0039E8C0 /* map */,
 				3AB93953308A096A00F96535 /* HomeScreen */,
 				4DAD643A30890DA900C2AA85 /* the font */,
 				4D4673163087D0F8008B5378 /* thelaunch_13 */,
+				4D40DA7C309210340039E8C0 /* Privacy - Location When In Use Usage Description. */,
 				4D4673153087D0F8008B5378 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -67,11 +90,13 @@
 				4D4673103087D0F8008B5378 /* Sources */,
 				4D4673113087D0F8008B5378 /* Frameworks */,
 				4D4673123087D0F8008B5378 /* Resources */,
+				4D40DA87309210340039E8C0 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
 				3AB93953308A096A00F96535 /* HomeScreen */,
+				4D40DA643091EAEB0039E8C0 /* map */,
 				4D4673163087D0F8008B5378 /* thelaunch_13 */,
 				4DAD643A30890DA900C2AA85 /* the font */,
 			);
@@ -184,6 +209,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -241,6 +268,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -262,6 +291,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "thelaunch-13-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "test ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -297,6 +327,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "thelaunch-13-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "test ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

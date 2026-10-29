@@ -5,10 +5,12 @@
 //  Created by Layan Nasser on 13/05/1448 AH.
 //
 import SwiftUI
+import CoreLocation
 
 struct OnboardingPage: View {
  
     @State var step = 0
+    var onFinish: () -> Void = {}
     var body: some View {
      
         
@@ -89,8 +91,13 @@ struct OnboardingPage: View {
             
             
             Button{
-                withAnimation(.easeInOut(duration: 0.6)){
-                    step = 1}
+                if step == 0 {
+                    withAnimation(.easeInOut(duration: 0.6)) { step = 1 }
+                } else {
+                    // نطلب الإذن (نافذة أبل) وندخل التطبيق على طول
+                    LocationService.shared.requestPermission()
+                    onFinish()
+                }
             }
             label:{
                 Image(systemName: "arrowshape.left.fill")
@@ -117,6 +124,3 @@ struct OnboardingPage: View {
 #Preview {
     OnboardingPage()
 }
-
-
-

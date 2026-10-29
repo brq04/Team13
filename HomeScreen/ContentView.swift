@@ -1,7 +1,13 @@
 import SwiftUI
 import SwiftData
+import Combine
 
 struct ContentView: View {
+    @Environment(\.modelContext) private var context
+    @State private var showEndOfDay = false
+    @State private var promptedToday = false
+    @State private var celebration: String?
+    private static let endOfDayHour = 20   // الساعة اللي يطلع فيها سؤال "سويتها؟"
     @Query private var completions: [Completion]
     @Query private var challenges: [Challenge]
     private var totalPoints: Int { completions.reduce(0) { $0 + $1.points } }
@@ -11,12 +17,6 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            
-            // Background image
-            Image(.bg)
-                            .resizable()
-                            .scaledToFill()
-                            .ignoresSafeArea()
 
             ScrollView{
             // Header
@@ -57,6 +57,11 @@ struct ContentView: View {
                 // Daily Progress
                 dailyProgressCard
                     .padding(.top, 48)
+
+                if snapshot.plannedToday {
+                    endOfDayCard
+                        .padding(.top, 16)
+                }
                 
                 
                 
@@ -72,9 +77,70 @@ struct ContentView: View {
                 
                 Spacer()
                     }.padding(.horizontal, 20)
-            }.padding(.bottom, 110)
+            }
+        }
+        // الخلفية هنا (background) عشان حجم الصورة ما يكبّر الصفحة ويدفع البار برا الشاشة
+        .background {
+            Image(.bg)
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+        }
+        .alert("كفو! سويت أنشطتك اليوم؟ 🌿", isPresented: $showEndOfDay) {
+            Button("نعم، أنجزتها") { completeToday() }
+            Button("لاحقًا", role: .cancel) {}
+        } message: {
+            Text("أكّد إنجازك عشان تنحسب نقاطك ونكمل هدفك")
+        }
+        .alert(celebration ?? "", isPresented: Binding(
+            get: { celebration != nil },
+            set: { if !$0 { celebration = nil } }
+        )) {
+            Button("حسنًا", role: .cancel) {}
+        }
+        .onAppear { checkEndOfDay() }
+        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { _ in
+            checkEndOfDay()
+        }
     }
-}
+
+    // MARK: - تأكيد الإنجاز (نهاية اليوم)
+    private var endOfDayCard: some View {
+        HStack(spacing: 12) {
+            Button { completeToday() } label: {
+                Text("أنجزتها ✅")
+                    .font(.custom("TheYearofHandicrafts-Bold", size: 14))
+                    .foregroundStyle(.white)
+                    .padding(.horizontal, 16)
+                    .frame(height: 40)
+                    .background(Color(red: 0.35, green: 0.43, blue: 0.32), in: Capsule())
+            }
+            Spacer()
+            VStack(alignment: .trailing, spacing: 2) {
+                Text("هل أنجزت أنشطة اليوم؟")
+                    .font(.custom("TheYearofHandicrafts-Bold", size: 16))
+                Text("أكّد إنجازك لتنحسب نقاطك في إحصائياتك")
+                    .font(.custom("TheYearofHandicrafts-Regular", size: 12))
+            }
+        }
+        .padding(16)
+        .background(Color(red: 0.96, green: 0.97, blue: 0.91), in: RoundedRectangle(cornerRadius: 28))
+    }
+
+    private func completeToday() {
+        let goalDone = Backend.completeToday(in: context)
+        celebration = goalDone
+            ? "أنجزت هدفك كاملًا، ما شاء الله عليك 🎉"
+            : "كفو، سويتها! نقاطك انضافت لإحصائياتك 🌿"
+    }
+
+    // نهاية اليوم: يطلع السؤال مرة وحدة لو فيه أنشطة مضافة وما انأكد إنجازها
+    private func checkEndOfDay() {
+        guard !promptedToday, snapshot.plannedToday,
+              Calendar.current.component(.hour, from: Date()) >= Self.endOfDayHour else { return }
+        promptedToday = true
+        showEndOfDay = true
+    }
     
     
     private var dailyProgressCard: some View {
@@ -92,6 +158,26 @@ struct ContentView: View {
             dailyProgressCardContent
         }
         .buttonStyle(.plain)   // عشان ما يتغير لون النصوص
+        .overlay(alignment: .topLeading) {
+            // كلمة "تعديل" الصغيرة: تطلع بس لما يكون فيه أنشطة مسجلة
+            if snapshot.hasActive {
+                NavigationLink {
+                    Activitypage()
+                        .navigationBarBackButtonHidden(true)
+                        .toolbar(.hidden, for: .navigationBar)
+                } label: {
+                    Text("تعديل")
+                        .font(.custom("TheYearofHandicrafts-Bold", size: 13))
+                        .foregroundStyle(Color(red: 0.35, green: 0.43, blue: 0.32))
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 5)
+                        .background(Color.white, in: Capsule())
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 18)
+                .padding(.leading, 20)
+            }
+        }
     }
     
     
@@ -113,9 +199,10 @@ struct ContentView: View {
                 return "اختر نشاطًا وحدّد مدة هدفك لتبدأ 🌱"
             }
             let today = "اليوم \(s.currentDay.arabicDigits) من \(s.totalDays.arabicDigits)"
-            return s.doneDays.contains(s.currentDay)
-                ? "\(today) · أنجز نشاط اليوم 🌿"
-                : "\(today) · سجّل نشاطك اليوم 🌱"
+            if s.isGoalComplete { return "\(today) · أتممت هدفك 🎉" }
+            if s.todayDone { return "\(today) · أنجزت نشاط اليوم 🌿" }
+            if s.plannedToday { return "\(today) · أضفت أنشطتك، أكّد إنجازها نهاية اليوم ⏳" }
+            return "\(today) · سجّل نشاطك اليوم 🌱"
         }()
 
         return VStack(alignment: .trailing, spacing: 8) {
@@ -134,7 +221,7 @@ struct ContentView: View {
                     let state: DayState = {
                         guard s.hasActive else { return .upcoming }
                         if day < s.currentDay { return .done }       // أيام عدّت
-                        if day == s.currentDay { return .current }   // اليوم
+                        if day == s.currentDay { return s.todayDone ? .done : .current }   // اليوم
                         return .upcoming                             // لسا
                     }()
 
@@ -283,8 +370,7 @@ struct ContentView: View {
 }
 #Preview {
     NavigationStack {
-        MainTabView()
+        ContentView()
     }
     .modelContainer(for: [Activity.self, Completion.self, Challenge.self], inMemory: true)
 }
-

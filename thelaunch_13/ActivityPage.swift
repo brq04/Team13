@@ -38,13 +38,17 @@ struct Activitypage: View {
     @State private var days = 1
     @State private var showAdd = false
     @State private var confirmed = false
+    @State private var detailActivity: Activity?
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
     @Environment(\.dismiss) private var dismiss
     @Query private var challenges: [Challenge]
 
-    private var activeSelection: (ids: Set<UUID>, days: Int)? {
+    private var activeSelection: (ids: Set<UUID>, days: Int, plannedToday: Bool)? {
         Backend.activeSelection(challenges)
     }
-    private var isEditing: Bool { activeSelection != nil }
+    private var hasChallenge: Bool { activeSelection != nil }                    // فيه سلسلة شغالة
+    private var isEditing: Bool { activeSelection?.plannedToday ?? false }       // أضافت أنشطة اليوم وتعدّلها
     
     var body: some View {
         let visible = activities.filter {
@@ -88,7 +92,8 @@ struct Activitypage: View {
                         let look = a.category.look
                         Card(icon: look.icon, color: look.color, bg: look.bg, tags: [a.category.rawValue, "+" + arabic(a.points) + " نقطة"],
                              title: a.title, details: a.details, isOn: selected.contains(a.id),
-                             plain: a.isCustom)
+                             plain: a.isCustom,
+                             onInfo: { detailActivity = a })
                             .onTapGesture { toggle(a.id) }
                     }
                     if filter == .all || filter == .other {
@@ -103,9 +108,11 @@ struct Activitypage: View {
             .padding(.bottom, 24)
         }
         .background(ScreenBackground())
+        .navigationDestination(item: $detailActivity) { DetailsPage(activity: $0) }
+        .toolbar(.hidden, for: .tabBar)
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 12) {
-                if !isEditing {
+                if !hasChallenge {
                     durationRow
                         .padding(.horizontal, 16)
                 }
@@ -121,18 +128,18 @@ struct Activitypage: View {
                 .environment(\.layoutDirection, .rightToLeft)
         }
         
-        .alert(isEditing ? "تم حفظ التعديل 🌿" : "تم تسجيل أنشطتك 🌿", isPresented: $confirmed) {
+        .alert(alertTitle, isPresented: $confirmed) {
             Button("حسنًا", role: .cancel) { dismiss() }
+        } message: {
+            Text(alertMessage)
         }
         
         .task { Backend.seedIfNeeded(context, with: sampleActivities) }
         .onAppear {
             guard selected.isEmpty else { return }
             if let s = activeSelection {
-                selected = s.ids
                 days = s.days
-            } else if let first = activities.first {
-                selected = [first.id]
+                if s.plannedToday { selected = s.ids }   // اليوم الجديد يبدأ فاضي
             }
         }
     }
@@ -186,8 +193,10 @@ struct Activitypage: View {
 
     // زر التأكيد: يسجل إنجاز اليوم ويبدأ/يكمل السلسلة
     private func confirm() {
+        let wasEditing = isEditing
         Backend.confirm(activities.filter { selected.contains($0.id) }, days: days, in: context)
-        if !isEditing { selected = [] }
+        alertTitle = wasEditing ? "تم حفظ التعديل 🌿" : "تمت إضافة أنشطتك لليوم 🌿"
+        alertMessage = "أكّد إنجازها من الرئيسية نهاية اليوم عشان تنحسب في إحصائياتك"
         confirmed = true
     }
 }
@@ -229,6 +238,7 @@ struct Card: View {
     var tags: [String] = []
     let title: String, details: String
     var isOn = false, dashed = false, plain = false
+    var onInfo: (() -> Void)? = nil
 
     var body: some View {
         HStack(alignment: .center, spacing: 12) {
@@ -259,6 +269,15 @@ struct Card: View {
                     .lineLimit(2)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+
+            if let onInfo {
+                Button(action: onInfo) {
+                    Image(systemName: "info.circle")
+                        .font(.system(size: 22, weight: .light))
+                        .foregroundColor(.softGray)
+                }
+                .buttonStyle(.plain)
+            }
 
             Image(systemName: isOn ? "checkmark.circle.fill" : "plus.circle")
                 .font(.system(size: 28, weight: .light))

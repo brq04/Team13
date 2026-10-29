@@ -9,6 +9,7 @@ import SwiftUI
 import CoreLocation
 
 struct WlcPage: View {
+    var onNext: () -> Void = {}
     
     
 
@@ -66,7 +67,7 @@ struct WlcPage: View {
             
             
             Button{
-                //action
+                onNext()
             }
             label:{
                 Image(systemName: "arrowshape.left.fill")
@@ -93,4 +94,3 @@ struct WlcPage: View {
 #Preview {
     WlcPage()
 }
- 
