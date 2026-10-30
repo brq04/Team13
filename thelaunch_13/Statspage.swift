@@ -113,8 +113,9 @@ struct StatsContentView: View {
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.darkGreen)
                             .frame(width: 46, height: 46)
-                            .background(Circle().fill(Color(hex: "#E6EAE3")))
+                            .glassEffect(.regular.interactive(), in: .circle)
                     }
+
                 }
                 .padding(.top, 14)
 

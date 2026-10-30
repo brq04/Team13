@@ -21,6 +21,7 @@ struct HabitsApp: App {
                 }
             }
             .modelContainer(container)
+
         }
     }
 }
