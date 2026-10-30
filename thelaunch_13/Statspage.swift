@@ -162,6 +162,7 @@ struct StatsContentView: View {
             .padding(.horizontal, Layout.pageMargin)
             .padding(.bottom, 20)
         }
+        .background(AppBackground())
         .scrollIndicators(.hidden)
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)

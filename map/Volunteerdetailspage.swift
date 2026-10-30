@@ -40,7 +40,7 @@ struct VolunteerDetailsPage: View {
 
                 if !place.tasks.isEmpty {
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("وش راح تسوي؟").font(.app(18, .bold))
+                        Text("المهام التطوعية").font(.app(18, .bold))
                         ForEach(place.tasks, id: \.self) { task in
                             HStack(alignment: .top, spacing: 10) {
                                 Image(systemName: "checkmark.circle.fill")

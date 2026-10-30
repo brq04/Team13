@@ -4,29 +4,31 @@ import SwiftData
 // MARK: - الأنشطة الأولية (تنحفظ بالقاعدة أول تشغيل فقط)
 var sampleActivities: [Activity] { [
     // التنقل
-    Activity(.transport, "استخدام النقل العام", "استخدم المترو أو الحافلة بدلًا من السيارة للوصول إلى وجهتك.", 25, tag: "تنقل نظيف"),
-    Activity(.transport, "المشي بدلًا من القيادة", "اذهب سيرًا إلى وجهتك عندما يتوفّر مسار آمن وتكون الأجواء مناسبة.", 30, tag: "تنقل نظيف"),
+    Activity(.transport, "استخدام النقل العام", "استخدم المترو أو الحافلة بدلًا من سيارتك.", 25, tag: "تنقل نظيف"),
+    Activity(.transport, "المشي بدلًا من القيادة", "اذهب إلى وجهتك سيرًا بدلًا من القيادة.", 30, tag: "تنقل نظيف"),
 
     // التدوير
-    Activity(.recycle, "فرز النفايات", "افصل الورق والبلاستيك والمعادن عن بقية النفايات لتسهيل إعادة تدويرها.", 20, tag: "فرز النفايات"),
-    Activity(.recycle, "التخلّص الآمن من الأجهزة الإلكترونية", "سلّم الأجهزة الإلكترونية التالفة والبطاريات إلى نقاط الجمع المخصّصة لها.", 30, tag: "نفايات إلكترونية"),
-    Activity(.recycle, "الحدّ من استخدام البلاستيك", "استخدم قارورة وأكياسًا قابلة لإعادة الاستخدام بدلًا من المنتجات البلاستيكية أحادية الاستخدام.", 15, tag: "تقليل البلاستيك"),
-    Activity(.recycle, "المساهمة المجتمعية", "تبرّع بالملابس والأثاث الصالح للاستخدام ليستفيد منها الآخرون.", 25, tag: "عمل مجتمعي"),
+    Activity(.recycle, "فرز النفايات", "افصل المواد القابلة لإعادة التدوير.", 20, tag: "فرز النفايات"),
+    Activity(.recycle, "التخلّص الآمن من الأجهزة الإلكترونية", "سلّم الأجهزة والبطاريات إلى نقاط الجمع.", 30, tag: "نفايات إلكترونية"),
+    Activity(.recycle, "الحدّ من استخدام البلاستيك", "استخدم بدائل قابلة لإعادة الاستخدام.", 15, tag: "تقليل البلاستيك"),
+    Activity(.recycle, "المساهمة المجتمعية", "تبرّع بما لا تحتاج إليه من ملابس وأثاث.", 25, tag: "عمل مجتمعي"),
 
     // الطعام
-    Activity(.food, "إعداد كميات مناسبة", "حضّر من الطعام ما يكفي حاجتك لتقليل الفائض.", 15, tag: "ترشيد الغذاء"),
-    Activity(.food, "الاستفادة من بقايا الطعام", "استخدم بقايا الطعام الصالحة للأكل في إعداد وجبة أخرى.", 20, tag: "حفظ النعمة"),
-    Activity(.food, "التخطيط لشراء الطعام", "تحقّق مما لديك واكتب قائمة باحتياجاتك قبل التسوّق.", 20, tag: "حفظ النعمة"),
-    Activity(.food, "استخدام الأطعمة الأقرب انتهاءً", "رتّب الأطعمة حسب تاريخ صلاحيتها واستخدم الأقرب انتهاءً أولًا.", 20, tag: "حفظ النعمة"),
+    Activity(.food, "إعداد كميات مناسبة", "أعدّ من الطعام قدر حاجتك فقط.", 15, tag: "ترشيد الغذاء"),
+    Activity(.food, "الاستفادة من بقايا الطعام", "حوّل البقايا الصالحة إلى وجبة جديدة.", 20, tag: "حفظ النعمة"),
+    Activity(.food, "التخطيط لشراء الطعام", "دوّن قائمة مشترياتك قبل التسوّق.", 20, tag: "حفظ النعمة"),
+    Activity(.food, "استخدام الأطعمة الأقرب انتهاءً", "استهلك الأقرب انتهاءً أولًا.", 20, tag: "حفظ النعمة"),
 
     // ترشيد الاستهلاك
-    Activity(.waste, "ترشيد استهلاك المياه", "قلّل من هدر المياه المحلّاة في استخداماتك اليومية.", 20, tag: "ترشيد المياه"),
-    Activity(.waste, "إطفاء الأنوار غير المستخدمة", "أطفئ الأنوار عند مغادرة الغرفة أو عندما تكفي الإضاءة الطبيعية.", 15, tag: "ترشيد الطاقة"),
-    Activity(.waste, "إطفاء المكيّف عند الخروج", "أطفئ المكيّف عند مغادرة المنزل إذا لم يكن أحد بحاجة إليه.", 25, tag: "ترشيد الطاقة"),
+    Activity(.waste, "ترشيد استهلاك المياه", "استخدم المياه بقدر حاجتك فقط.", 20, tag: "ترشيد المياه"),
+    Activity(.waste, "إطفاء الأنوار غير المستخدمة", "أطفئ الأنوار عند مغادرة الغرفة.", 15, tag: "ترشيد الطاقة"),
+    Activity(.waste, "إطفاء المكيّف عند الخروج", "أطفئ المكيّف قبل مغادرة المنزل.", 25, tag: "ترشيد الطاقة"),
 
     // أخرى
-    Activity(.other, "مبادرة السعودية الخضراء", "شارك في حملات التشجير والنظافة البيئية للمساهمة في تحقيق أهداف الاستدامة الوطنية.", 40, tag: "السعودية الخضراء"),
+    Activity(.other, "مبادرة السعودية الخضراء", "شارك في حملات التشجير والنظافة.", 40, tag: "السعودية الخضراء"),
 ]}
+
+
 
 // MARK: - الشاشة الرئيسية
 struct Activitypage: View {
@@ -65,15 +67,16 @@ struct Activitypage: View {
                         dismiss()
                     } label: {
                         Image(systemName: "arrow.right")
-                            .font(.system(size: 20, weight: .semibold))
-                            .foregroundColor(.darkGreen)
-                            .frame(width: 46, height: 46)
-                            .background(Circle().fill(Color(hex: "#E6EAE3")))
                     }
+                    .buttonStyle(.glass)
+                    .buttonBorderShape(.circle)
+                    .controlSize(.large)
 
                     Spacer()
                 }
                 .padding(.top, 14)
+                
+                
 
                 Text("سجل أنشطتك")
                     .font(AppFont.title(32))
@@ -93,8 +96,7 @@ struct Activitypage: View {
                         Card(icon: look.icon, color: look.color, bg: look.bg, tags: [a.category.rawValue, "+" + arabic(a.points) + " نقطة"],
                              title: a.title, details: a.details, isOn: selected.contains(a.id),
                              plain: a.isCustom,
-                             onInfo: { detailActivity = a })
-                            .onTapGesture { toggle(a.id) }
+                             onInfo: a.isCustom ? nil : { detailActivity = a })                              .onTapGesture { toggle(a.id) }
                     }
                     if filter == .all || filter == .other {
                         Card(icon: "square.and.pencil", color: .darkGreen, bg: Color.lightGreen.opacity(0.5),
@@ -107,7 +109,8 @@ struct Activitypage: View {
             .padding(.horizontal, 16)
             .padding(.bottom, 24)
         }
-        .background(ScreenBackground())
+        
+        .background(AppBackground())
         .navigationDestination(item: $detailActivity) { DetailsPage(activity: $0) }
         .toolbar(.hidden, for: .tabBar)
         .safeAreaInset(edge: .bottom) {
@@ -196,7 +199,10 @@ struct Activitypage: View {
         let wasEditing = isEditing
         Backend.confirm(activities.filter { selected.contains($0.id) }, days: days, in: context)
         alertTitle = wasEditing ? "تم حفظ التعديل 🌿" : "تمت إضافة أنشطتك لليوم 🌿"
-        alertMessage = "أكّد إنجازها من الرئيسية نهاية اليوم عشان تنحسب في إحصائياتك"
+        
+        
+        alertMessage = "أكِّد إنجازها من الصفحة الرئيسية في نهاية اليوم لتُحتسب في إحصائياتك"
+        
         confirmed = true
     }
 }
@@ -313,7 +319,6 @@ struct GreenButton: View {
             Text(text).font(AppFont.title(size)).foregroundColor(isOn ? Color.white : Color.ink.opacity(0.3))
                 .frame(maxWidth: .infinity).frame(height: 50)
                 .background(RoundedRectangle(cornerRadius: 16).fill(isOn ? Color.darkGreen : Color.lightGreen.opacity(0.5)))
-                .shadow(color: Color.darkGreen.opacity(isOn ? 0.35 : 0), radius: 10, y: 5)
         }.disabled(!isOn)
     }
 }
@@ -327,23 +332,41 @@ struct AddSheet: View {
     var body: some View {
         let name = title.trimmingCharacters(in: .whitespacesAndNewlines)
         VStack(alignment: .leading, spacing: 14) {
-            Text("إضافة نشاط").font(AppFont.title(22)).foregroundColor(.ink).padding(.top, 8)
+            Text("إضافة نشاط")
+            
+                .font(AppFont.title(22)).foregroundColor(.ink).padding(.top, 8)
             Text("سجّل نشاطًا مستدامًا من اختيارك").font(AppFont.text(13)).foregroundColor(.softGray)
             TextField("اسم النشاط", text: $title).inputStyle()
             TextField("وصف مختصر (اختياري)", text: $details).inputStyle()
             Text("نوع النشاط").font(AppFont.title(16)).foregroundColor(.ink).padding(.top, 4)
-            HStack(spacing: 8) {
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
                 ForEach(ActivityCategory.allCases.filter { $0 != .all }, id: \.self) { c in
-                    VStack(spacing: 6) {
-                        IconBadge(icon: c.look.icon, color: c.look.color, bg: c.look.bg, size: 38)
-                        Text(c.rawValue).font(AppFont.title(12)).foregroundColor(.ink).lineLimit(1).minimumScaleFactor(0.7)
+                    HStack(spacing: 8) {
+                        Circle()
+                            .fill(c.look.bg)
+                            .frame(width:25 , height: 25)
+                            .overlay(
+                                Image(systemName: c.look.icon)
+                                    .font(.system(size: 12, weight: .medium))
+                                    .foregroundColor(c.look.color)
+                            )
+                        Text(c.rawValue)
+                            .font(AppFont.title(14))
+                            .foregroundColor(.ink)
+                            .lineLimit(1)
+                            .minimumScaleFactor(0.7)
                     }
-                    .frame(maxWidth: .infinity).padding(.vertical, 10)
-                    .background(RoundedRectangle(cornerRadius: 14).fill(type == c ? Color.cream : Color.white))
-                    .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(type == c ? Color.darkGreen : Color.lightGreen, lineWidth: 1.5))
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 10)
+                    .frame(height: 35)
+                    .background(Capsule().fill(type == c ? Color.cream : Color.white))
+                    .overlay(Capsule().strokeBorder(type == c ? Color.darkGreen : Color.lightGreen, lineWidth: 1.5))
+                    .contentShape(Capsule())
                     .onTapGesture { type = c }
                 }
             }
+            
+            
             Spacer(minLength: 0)
             GreenButton(text: "إضافة", size: 20, isOn: !name.isEmpty) {
                 onAdd(name, details.trimmingCharacters(in: .whitespacesAndNewlines), type)
@@ -351,6 +374,7 @@ struct AddSheet: View {
             }
         }
         .padding(20)
+        
         .frame(maxWidth: .infinity, alignment: .leading)
         .presentationBackground { ScreenBackground() }
         .presentationDetents([.fraction(0.62), .large])
@@ -368,9 +392,12 @@ struct ScreenBackground: View {
     }
 }
 
+
+
 extension View {
     func inputStyle() -> some View {
         self.font(AppFont.text(16)).foregroundColor(.ink).multilineTextAlignment(.leading)
+
             .padding(.horizontal, 14).frame(height: 50).background(RoundedRectangle(cornerRadius: 14).fill(Color.white))
             .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(Color.lightGreen))
     }
