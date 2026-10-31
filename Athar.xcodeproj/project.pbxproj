@@ -6,11 +6,38 @@
 	objectVersion = 110;
 	objects = {
 
+/* Begin PBXCopyFilesBuildPhase section */
+		4D40DA87309210340039E8C0 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			dstPath = "";
+			dstSubfolder = PlugIns;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		4D4673143087D0F8008B5378 /* thelaunch_13.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = thelaunch_13.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3AB9394E308A01B500F96535 /* thelaunch-13-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "thelaunch-13-Info.plist"; sourceTree = "<group>"; };
+		4D4673143087D0F8008B5378 /* Athar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Athar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		3AB93953308A096A00F96535 /* HomeScreen */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = HomeScreen;
+			sourceTree = "<group>";
+		};
+		4D40DA643091EAEB0039E8C0 /* map */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = map;
+			sourceTree = "<group>";
+		};
+		4D40DA7C309210340039E8C0 /* Privacy - Location When In Use Usage Description. */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Privacy - Location When In Use Usage Description.";
+			sourceTree = "<group>";
+		};
 		4D4673163087D0F8008B5378 /* thelaunch_13 */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = thelaunch_13;
@@ -35,16 +62,20 @@
 		4D46730B3087D0F8008B5378 = {
 			isa = PBXGroup;
 			children = (
-				4D4673163087D0F8008B5378 /* thelaunch_13 */,
-				4D4673153087D0F8008B5378 /* Products */,
+				3AB9394E308A01B500F96535 /* thelaunch-13-Info.plist */,
+				4D40DA643091EAEB0039E8C0 /* map */,
+				3AB93953308A096A00F96535 /* HomeScreen */,
 				4DAD643A30890DA900C2AA85 /* the font */,
+				4D4673163087D0F8008B5378 /* thelaunch_13 */,
+				4D40DA7C309210340039E8C0 /* Privacy - Location When In Use Usage Description. */,
+				4D4673153087D0F8008B5378 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
 		4D4673153087D0F8008B5378 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4D4673143087D0F8008B5378 /* thelaunch_13.app */,
+				4D4673143087D0F8008B5378 /* Athar.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -52,23 +83,26 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		4D4673133087D0F8008B5378 /* thelaunch_13 */ = {
+		4D4673133087D0F8008B5378 /* Athar */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 4D46731F3087D0F9008B5378 /* Build configuration list for PBXNativeTarget "thelaunch_13" */;
+			buildConfigurationList = 4D46731F3087D0F9008B5378 /* Build configuration list for PBXNativeTarget "Athar" */;
 			buildPhases = (
 				4D4673103087D0F8008B5378 /* Sources */,
 				4D4673113087D0F8008B5378 /* Frameworks */,
 				4D4673123087D0F8008B5378 /* Resources */,
+				4D40DA87309210340039E8C0 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			fileSystemSynchronizedGroups = (
+				3AB93953308A096A00F96535 /* HomeScreen */,
+				4D40DA643091EAEB0039E8C0 /* map */,
 				4D4673163087D0F8008B5378 /* thelaunch_13 */,
 				4DAD643A30890DA900C2AA85 /* the font */,
 			);
-			name = thelaunch_13;
+			name = Athar;
 			productName = thelaunch_13;
-			productReference = 4D4673143087D0F8008B5378 /* thelaunch_13.app */;
+			productReference = 4D4673143087D0F8008B5378 /* Athar.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -83,15 +117,17 @@
 				TargetAttributes = {
 					4D4673133087D0F8008B5378 = {
 						CreatedOnToolsVersion = 27.0;
+						LastSwiftMigration = 2700;
 					};
 				};
 			};
-			buildConfigurationList = 4D46730F3087D0F8008B5378 /* Build configuration list for PBXProject "thelaunch_13" */;
+			buildConfigurationList = 4D46730F3087D0F8008B5378 /* Build configuration list for PBXProject "Athar" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ar,
 			);
 			mainGroup = 4D46730B3087D0F8008B5378;
 			minimizedProjectReferenceProxies = 1;
@@ -100,7 +136,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				4D4673133087D0F8008B5378 /* thelaunch_13 */,
+				4D4673133087D0F8008B5378 /* Athar */,
 			);
 		};
 /* End PBXProject section */
@@ -122,7 +158,7 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
-		4D46731D3087D0F9008B5378 /* Debug configuration for PBXProject "thelaunch_13" */ = {
+		4D46731D3087D0F9008B5378 /* Debug configuration for PBXProject "Athar" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -174,6 +210,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -185,7 +223,7 @@
 			};
 			name = Debug;
 		};
-		4D46731E3087D0F9008B5378 /* Release configuration for PBXProject "thelaunch_13" */ = {
+		4D46731E3087D0F9008B5378 /* Release configuration for PBXProject "Athar" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -231,6 +269,8 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "نستخدم موقعك لعرض الأماكن وفرص التطوع القريبة منك";
 				IPHONEOS_DEPLOYMENT_TARGET = 27.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -241,15 +281,22 @@
 			};
 			name = Release;
 		};
-		4D4673203087D0F9008B5378 /* Debug configuration for PBXNativeTarget "thelaunch_13" */ = {
+		4D4673203087D0F9008B5378 /* Debug configuration for PBXNativeTarget "Athar" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=iphoneos*]" = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3DGF7QBLFB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "thelaunch-13-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "test ";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "يستخدم التطبيق موقعك لعرض الحدائق ومراكز إعادة التدوير وفرص التطوع القريبة منك على الخريطة";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -260,27 +307,35 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "firsttry.thelaunch-13";
+				PRODUCT_BUNDLE_IDENTIFIER = "firsttry.thelaunch-13-mu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "thelaunch_13/thelaunch_13-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
-		4D4673213087D0F9008B5378 /* Release configuration for PBXNativeTarget "thelaunch_13" */ = {
+		4D4673213087D0F9008B5378 /* Release configuration for PBXNativeTarget "Athar" */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = NO;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3DGF7QBLFB;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "thelaunch-13-Info.plist";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "test ";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "يستخدم التطبيق موقعك لعرض الحدائق ومراكز إعادة التدوير وفرص التطوع القريبة منك على الخريطة";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -291,12 +346,13 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "firsttry.thelaunch-13";
+				PRODUCT_BUNDLE_IDENTIFIER = "firsttry.thelaunch-13-mu";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "thelaunch_13/thelaunch_13-Bridging-Header.h";
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -306,19 +362,19 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		4D46730F3087D0F8008B5378 /* Build configuration list for PBXProject "thelaunch_13" */ = {
+		4D46730F3087D0F8008B5378 /* Build configuration list for PBXProject "Athar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4D46731D3087D0F9008B5378 /* Debug configuration for PBXProject "thelaunch_13" */,
-				4D46731E3087D0F9008B5378 /* Release configuration for PBXProject "thelaunch_13" */,
+				4D46731D3087D0F9008B5378 /* Debug configuration for PBXProject "Athar" */,
+				4D46731E3087D0F9008B5378 /* Release configuration for PBXProject "Athar" */,
 			);
 			defaultConfigurationName = Release;
 		};
-		4D46731F3087D0F9008B5378 /* Build configuration list for PBXNativeTarget "thelaunch_13" */ = {
+		4D46731F3087D0F9008B5378 /* Build configuration list for PBXNativeTarget "Athar" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				4D4673203087D0F9008B5378 /* Debug configuration for PBXNativeTarget "thelaunch_13" */,
-				4D4673213087D0F9008B5378 /* Release configuration for PBXNativeTarget "thelaunch_13" */,
+				4D4673203087D0F9008B5378 /* Debug configuration for PBXNativeTarget "Athar" */,
+				4D4673213087D0F9008B5378 /* Release configuration for PBXNativeTarget "Athar" */,
 			);
 			defaultConfigurationName = Release;
 		};

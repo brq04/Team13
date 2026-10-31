@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scheme
+   LastUpgradeVersion = "2700"
+   wasCreatedForAppExtension = "YES"
+   version = "2.0">
+   <BuildAction
+      parallelizeBuildables = "YES"
+      buildImplicitDependencies = "YES"
+      buildArchitectures = "Automatic">
+      <BuildActionEntries>
+         <BuildActionEntry
+            buildForTesting = "NO"
+            buildForRunning = "NO"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4D40DA7A309210340039E8C0"
+               BuildableName = "&#x646;&#x633;&#x62a;&#x62e;&#x62f;&#x645; &#x645;&#x648;&#x642;&#x639;&#x643; &#x644;&#x639;&#x631;&#x636; &#x627;&#x644;&#x627;&#x654;&#x645;&#x627;&#x643;&#x646; &#x648;&#x641;&#x631;&#x635; &#x627;&#x644;&#x62a;&#x637;&#x648;&#x639; &#x627;&#x644;&#x642;&#x631;&#x64a;&#x628;&#x629; &#x645;&#x646;&#x643;..appex"
+               BlueprintName = "&#x646;&#x633;&#x62a;&#x62e;&#x62f;&#x645; &#x645;&#x648;&#x642;&#x639;&#x643; &#x644;&#x639;&#x631;&#x636; &#x627;&#x644;&#x623;&#x645;&#x627;&#x643;&#x646; &#x648;&#x641;&#x631;&#x635; &#x627;&#x644;&#x62a;&#x637;&#x648;&#x639; &#x627;&#x644;&#x642;&#x631;&#x64a;&#x628;&#x629; &#x645;&#x646;&#x643;."
+               ReferencedContainer = "container:Athar.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "YES"
+            buildForArchiving = "YES"
+            buildForAnalyzing = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "4D4673133087D0F8008B5378"
+               BuildableName = "Athar.app"
+               BlueprintName = "thelaunch_13"
+               ReferencedContainer = "container:Athar.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
+      </BuildActionEntries>
+   </BuildAction>
+   <TestAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
+      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      shouldAutocreateTestPlan = "YES">
+   </TestAction>
+   <LaunchAction
+      buildConfiguration = "Debug"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
+      launchStyle = "0"
+      askForAppToLaunch = "Yes"
+      useCustomWorkingDirectory = "NO"
+      ignoresPersistentStateOnLaunch = "NO"
+      debugDocumentVersioning = "YES"
+      debugServiceExtension = "internal"
+      allowLocationSimulation = "YES"
+      launchAutomaticallySubstyle = "2"
+      queueDebuggingEnabled = "No">
+      <RemoteRunnable
+         runnableDebuggingMode = "0"
+         BundleIdentifier = "com.apple.PreviewShell"
+         RemotePath = "/Library/Developer/CoreSimulator/Volumes/iOS_24A434/Library/Developer/CoreSimulator/Profiles/Runtimes/iOS 27.0.simruntime/Contents/Resources/RuntimeRoot/Applications/PreviewShell.app">
+      </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4D4673133087D0F8008B5378"
+            BuildableName = "Athar.app"
+            BlueprintName = "thelaunch_13"
+            ReferencedContainer = "container:Athar.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+   </LaunchAction>
+   <ProfileAction
+      buildConfiguration = "Release"
+      shouldUseLaunchSchemeArgsEnv = "YES"
+      savedToolIdentifier = ""
+      useCustomWorkingDirectory = "NO"
+      debugDocumentVersioning = "YES"
+      askForAppToLaunch = "Yes"
+      launchAutomaticallySubstyle = "2">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "4D4673133087D0F8008B5378"
+            BuildableName = "Athar.app"
+            BlueprintName = "thelaunch_13"
+            ReferencedContainer = "container:Athar.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
+   </ProfileAction>
+   <AnalyzeAction
+      buildConfiguration = "Debug">
+   </AnalyzeAction>
+   <ArchiveAction
+      buildConfiguration = "Release"
+      revealArchiveInOrganizer = "YES">
+   </ArchiveAction>
+</Scheme>
