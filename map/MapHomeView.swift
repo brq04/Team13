@@ -10,7 +10,7 @@ import MapKit
 struct MapHomeView: View {
     var bottomInset: CGFloat = 0   // مساحة البار السفلي عشان ما يغطي المفتاح
     @State private var search = ""
-    @State private var category: PlaceCategory = .all
+    @State private var filter: MapFilter = .all
     @State private var selected: Place?
     @State private var detail: Place?                       // صفحة الفرصة
     @State private var allPlaces = Place.samples            // تتحدث مواقعها من الخرائط
@@ -24,7 +24,7 @@ struct MapHomeView: View {
 
     private var places: [Place] {
         allPlaces.filter { p in
-            (category == .all || p.category == category) &&
+            filter.matches(p) &&
             (search.isEmpty || p.title.localizedCaseInsensitiveContains(search))
         }
     }
@@ -33,7 +33,7 @@ struct MapHomeView: View {
         VStack(spacing: 16) {
             AppHeader()
             SearchBar(text: $search)
-            CategoryChips(selection: $category)
+            CategoryChips(selection: $filter)
             mapView
         }
         .padding(.horizontal, 20)
@@ -138,6 +138,28 @@ struct MapHomeView: View {
     }
 }
 
+// MARK: - فلتر الخريطة (٣ خيارات فقط)
+enum MapFilter: String, CaseIterable, Identifiable {
+    case all, gardens, volunteer
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .all:       "الكل"
+        case .gardens:   "الحدائق"
+        case .volunteer: "التطوع"
+        }
+    }
+
+    func matches(_ place: Place) -> Bool {
+        switch self {
+        case .all:       true
+        case .gardens:   place.category == .gardens
+        case .volunteer: place.kind == .volunteer
+        }
+    }
+}
+
 // MARK: - Components
 
 struct AppHeader: View {
@@ -172,11 +194,11 @@ struct SearchBar: View {
 }
 
 struct CategoryChips: View {
-    @Binding var selection: PlaceCategory
+    @Binding var selection: MapFilter
 
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(PlaceCategory.allCases) { c in
+            ForEach(MapFilter.allCases) { c in
                 Button {
                     withAnimation(.snappy) { selection = c }
                 } label: {

@@ -183,7 +183,6 @@ struct Activitypage: View {
             DetailsPage(activity: $0)
         }
         
-        .navigationDestination(item: $detailActivity) { DetailsPage(activity: $0) }
         .toolbar(.hidden, for: .tabBar)
         .safeAreaInset(edge: .bottom) {
             VStack(spacing: 12) {

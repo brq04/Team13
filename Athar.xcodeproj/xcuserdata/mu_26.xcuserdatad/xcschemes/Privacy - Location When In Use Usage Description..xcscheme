@@ -19,7 +19,7 @@
                BlueprintIdentifier = "4D40DA7A309210340039E8C0"
                BuildableName = "&#x646;&#x633;&#x62a;&#x62e;&#x62f;&#x645; &#x645;&#x648;&#x642;&#x639;&#x643; &#x644;&#x639;&#x631;&#x636; &#x627;&#x644;&#x627;&#x654;&#x645;&#x627;&#x643;&#x646; &#x648;&#x641;&#x631;&#x635; &#x627;&#x644;&#x62a;&#x637;&#x648;&#x639; &#x627;&#x644;&#x642;&#x631;&#x64a;&#x628;&#x629; &#x645;&#x646;&#x643;..appex"
                BlueprintName = "&#x646;&#x633;&#x62a;&#x62e;&#x62f;&#x645; &#x645;&#x648;&#x642;&#x639;&#x643; &#x644;&#x639;&#x631;&#x636; &#x627;&#x644;&#x623;&#x645;&#x627;&#x643;&#x646; &#x648;&#x641;&#x631;&#x635; &#x627;&#x644;&#x62a;&#x637;&#x648;&#x639; &#x627;&#x644;&#x642;&#x631;&#x64a;&#x628;&#x629; &#x645;&#x646;&#x643;."
-               ReferencedContainer = "container:thelaunch_13.xcodeproj">
+               ReferencedContainer = "container:Athar.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,8 +31,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D4673133087D0F8008B5378"
-               BuildableName = "thelaunch_13.app"
-               ReferencedContainer = "container:thelaunch_13.xcodeproj">
+               BuildableName = "Athar.app"
+               BlueprintName = "thelaunch_13"
+               ReferencedContainer = "container:Athar.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -66,8 +67,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D4673133087D0F8008B5378"
-            BuildableName = "thelaunch_13.app"
-            ReferencedContainer = "container:thelaunch_13.xcodeproj">
+            BuildableName = "Athar.app"
+            BlueprintName = "thelaunch_13"
+            ReferencedContainer = "container:Athar.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </LaunchAction>
@@ -84,8 +86,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D4673133087D0F8008B5378"
-            BuildableName = "thelaunch_13.app"
-            ReferencedContainer = "container:thelaunch_13.xcodeproj">
+            BuildableName = "Athar.app"
+            BlueprintName = "thelaunch_13"
+            ReferencedContainer = "container:Athar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

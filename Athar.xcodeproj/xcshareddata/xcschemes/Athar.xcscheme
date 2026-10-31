@@ -16,8 +16,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4D4673133087D0F8008B5378"
-               BuildableName = "thelaunch_13.app"
-               ReferencedContainer = "container:thelaunch_13.xcodeproj">
+               BuildableName = "Athar.app"
+               ReferencedContainer = "container:Athar.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,7 +33,6 @@
       buildConfiguration = "Debug"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
-      language = "ar"
       launchStyle = "0"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
@@ -46,8 +45,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D4673133087D0F8008B5378"
-            BuildableName = "thelaunch_13.app"
-            ReferencedContainer = "container:thelaunch_13.xcodeproj">
+            BuildableName = "Athar.app"
+            ReferencedContainer = "container:Athar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -62,8 +61,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4D4673133087D0F8008B5378"
-            BuildableName = "thelaunch_13.app"
-            ReferencedContainer = "container:thelaunch_13.xcodeproj">
+            BuildableName = "Athar.app"
+            ReferencedContainer = "container:Athar.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

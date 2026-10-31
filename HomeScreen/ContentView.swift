@@ -7,6 +7,7 @@ struct ContentView: View {
     @State private var showEndOfDay = false
     @State private var promptedToday = false
     @State private var celebration: String?
+    @State private var showCelebration = false
     private static let endOfDayHour = 20   // الساعة اللي يطلع فيها سؤال "سويتها؟"
     @Query private var completions: [Completion]
     @Query private var challenges: [Challenge]
@@ -86,18 +87,15 @@ struct ContentView: View {
                 .scaledToFill()
                 .ignoresSafeArea()
         }
-        .alert("كفو! سويت أنشطتك اليوم؟ 🌿", isPresented: $showEndOfDay) {
-            Button("نعم، أنجزتها") { completeToday() }
-            Button("لاحقًا", role: .cancel) {}
-        } message: {
-            Text("أكّد إنجازك عشان تنحسب نقاطك ونكمل هدفك")
-        }
-        .alert(celebration ?? "", isPresented: Binding(
-            get: { celebration != nil },
-            set: { if !$0 { celebration = nil } }
-        )) {
-            Button("حسنًا", role: .cancel) {}
-        }
+        // نوافذ التطبيق العربية الموحّدة
+        .appAlert(isPresented: $showEndOfDay,
+                  title: "كفو! سويت أنشطتك اليوم؟ 🌿",
+                  message: "أكّد إنجازك عشان تنحسب نقاطك ونكمل هدفك",
+                  buttons: [AppAlertButton("نعم، أنجزتها") { completeToday() },
+                            AppAlertButton("لاحقًا", style: .cancel)])
+        .appAlert(isPresented: $showCelebration,
+                  title: celebration ?? "",
+                  buttons: [AppAlertButton("حسنًا")])
         .onAppear { checkEndOfDay() }
         .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { _ in
             checkEndOfDay()
@@ -132,6 +130,7 @@ struct ContentView: View {
         celebration = goalDone
             ? "أنجزت هدفك كاملًا، ما شاء الله عليك 🎉"
             : "كفو، سويتها! نقاطك انضافت لإحصائياتك 🌿"
+        showCelebration = true
     }
 
     // نهاية اليوم: يطلع السؤال مرة وحدة لو فيه أنشطة مضافة وما انأكد إنجازها

@@ -7,6 +7,8 @@ struct HabitsApp: App {
     @State private var stage = 0   // 0 ترحيب، 1 onboarding، 2 التطبيق (يبدأ من الترحيب كل تشغيل)
 
     init() {
+        // لون أزرار كل النوافذ (alerts) موحّد: أخضر التطبيق
+        UIView.appearance(whenContainedInInstancesOf: [UIAlertController.self]).tintColor = UIColor(Color.brandDark)
         container = try! ModelContainer(for: Activity.self, Completion.self, Challenge.self)
         Backend.seedIfNeeded(container.mainContext, with: sampleActivities)
     }
@@ -18,13 +20,9 @@ struct HabitsApp: App {
                 case 0:  WlcPage { withAnimation { stage = 1 } }
                 case 1:  OnboardingPage { withAnimation { stage = 2 } }
                 default: MainTabView()
-                       
                 }
             }
             .modelContainer(container)
-
         }
-        
-        
     }
 }
