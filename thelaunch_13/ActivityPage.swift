@@ -45,7 +45,10 @@ struct Activitypage: View {
     @State private var alertMessage = ""
     @Environment(\.dismiss) private var dismiss
     @Query private var challenges: [Challenge]
-
+    @State private var swipedActivityID: UUID?
+    @State private var showDeleteConfirmation = false
+    @State private var activityToDelete: Activity?
+    
     private var activeSelection: (ids: Set<UUID>, days: Int, plannedToday: Bool)? {
         Backend.activeSelection(challenges)
     }
@@ -91,13 +94,73 @@ struct Activitypage: View {
                     .padding(.top, 20)
 
                 LazyVStack(spacing: 18) {
+                    
                     ForEach(visible, id: \.id) { a in
                         let look = a.category.look
-                        Card(icon: look.icon, color: look.color, bg: look.bg, tags: [a.category.rawValue, "+" + arabic(a.points) + " نقطة"],
-                             title: a.title, details: a.details, isOn: selected.contains(a.id),
-                             plain: a.isCustom,
-                             onInfo: a.isCustom ? nil : { detailActivity = a })                              .onTapGesture { toggle(a.id) }
+
+                        ZStack(alignment: .trailing) {
+
+                            // Delete button - only for custom activities
+                            if a.isCustom {
+                                Button {
+                                    activityToDelete = a
+                                    showDeleteConfirmation = true
+                                } label: {
+                                    Image(systemName: "trash")
+                                        .font(.system(size: 22))
+                                        .foregroundStyle(.white)
+                                        .frame(width: 70, height: 100)
+                                        .background(.red, in:
+                                            RoundedRectangle(cornerRadius: 16))
+                                }
+                                .buttonStyle(.plain)
+                            }
+
+                            // Your existing activity card
+                            Card(
+                                icon: look.icon,
+                                color: look.color,
+                                bg: look.bg,
+                                tags: [
+                                    a.category.rawValue,
+                                    "+" + arabic(a.points) + " نقطة"
+                                ],
+                                title: a.title,
+                                details: a.details,
+                                isOn: selected.contains(a.id),
+                                plain: a.isCustom,
+                                onInfo: a.isCustom ? nil : {
+                                    detailActivity = a
+                                }
+                            )
+                            .environment(\.layoutDirection, .rightToLeft)
+                            .frame(maxWidth: .infinity)
+                            .offset(x: swipedActivityID == a.id ? -76 : 0)
+                            .onTapGesture {
+                                if swipedActivityID == a.id {
+                                    swipedActivityID = nil
+                                } else {
+                                    toggle(a.id)
+                                }
+                            }
+                            .simultaneousGesture(
+                                DragGesture(minimumDistance: 30)
+                                    .onEnded { value in
+                                        guard a.isCustom else { return }
+
+                                        withAnimation(.easeInOut(duration: 0.2)) {
+                                            if value.translation.width < -50 {
+                                                swipedActivityID = a.id
+                                            } else if value.translation.width > 50 {
+                                                swipedActivityID = nil
+                                            }
+                                        }
+                                    }
+                            )
+                        }
+                        .environment(\.layoutDirection, .leftToRight)
                     }
+
                     if filter == .all || filter == .other {
                         Card(icon: "square.and.pencil", color: .darkGreen, bg: Color.lightGreen.opacity(0.5),
                              title: "أخرى", details: "أضف نشاطًا مستدامًا من اختيارك", dashed: true)
@@ -108,9 +171,18 @@ struct Activitypage: View {
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 24)
+            
+            
+            
         }
         
         .background(AppBackground())
+
+      
+        .navigationDestination(item: $detailActivity) {
+            DetailsPage(activity: $0)
+        }
+        
         .navigationDestination(item: $detailActivity) { DetailsPage(activity: $0) }
         .toolbar(.hidden, for: .tabBar)
         .safeAreaInset(edge: .bottom) {
@@ -130,11 +202,15 @@ struct Activitypage: View {
             AddSheet { title, details, category in add(title, details, category) }
                 .environment(\.layoutDirection, .rightToLeft)
         }
+        .fullScreenCover(isPresented: $showDeleteConfirmation) {
+            deleteConfirmationAlert
+                .presentationBackground(.clear)
+        }
         
-        .alert(alertTitle, isPresented: $confirmed) {
-            Button("حسنًا", role: .cancel) { dismiss() }
-        } message: {
-            Text(alertMessage)
+        .overlay {
+            if confirmed {
+                customAlert
+            }
         }
         
         .task { Backend.seedIfNeeded(context, with: sampleActivities) }
@@ -205,6 +281,142 @@ struct Activitypage: View {
         
         confirmed = true
     }
+    
+    
+    private var customAlert: some View {
+        ZStack {
+            Color.black.opacity(0.25)
+                .ignoresSafeArea()
+
+            VStack(alignment: .trailing, spacing: 0) {
+
+                // Title
+                Text(alertTitle)
+                    .font(AppFont.title(20))
+                    .foregroundStyle(Color.ink)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+
+                // Description
+                Text(alertMessage)
+                    .font(AppFont.text(16))
+                    .foregroundStyle(Color.softGray)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .lineSpacing(4)
+                    .padding(.top, 8)
+
+                // Confirm Button
+                Button {
+                    confirmed = false
+                    dismiss()
+                } label: {
+                    Text("حسنًا")
+                        .font(AppFont.title(20))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 48)
+                        .background(Color.darkGreen, in: Capsule())
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 20)
+            }
+            .environment(\.layoutDirection, .leftToRight)
+            .padding(24)
+            .frame(maxWidth: 320)
+            .background(
+                Color(red: 0.96, green: 0.97, blue: 0.93),
+                in: RoundedRectangle(cornerRadius: 28)
+            )
+            .padding(.horizontal, 24)
+        }
+    }
+
+    
+
+    private var deleteConfirmationAlert: some View {
+        ZStack {
+            Color.black.opacity(0.25)
+                .ignoresSafeArea()
+
+            VStack(alignment: .trailing, spacing: 0) {
+
+                // Title
+                Text("هل أنت متأكد من حذف النشاط؟")
+                    .font(AppFont.title(20))
+                    .foregroundStyle(Color.ink)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+
+                // Description
+                Text("سيتم حذف هذا النشاط من قائمتك.")
+                    .font(AppFont.text(16))
+                    .foregroundStyle(Color.softGray)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .lineSpacing(4)
+                    .padding(.top, 8)
+
+                // Delete Button
+                Button {
+                    if let activity = activityToDelete {
+                        deleteActivity(activity)
+                    }
+                    activityToDelete = nil
+                    showDeleteConfirmation = false
+                } label: {
+                    Text("حذف النشاط")
+                        .font(AppFont.title(20))
+                        .foregroundStyle(.white)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 48)
+                        .background(
+                            Color(red: 0.72, green: 0.25, blue: 0.25),
+                            in: Capsule()
+                        )
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 20)
+
+                // Cancel Button
+                Button {
+                    activityToDelete = nil
+                    showDeleteConfirmation = false
+                } label: {
+                    Text("تراجع")
+                        .font(AppFont.title(20))
+                        .foregroundStyle(Color.darkGreen)
+                        .frame(maxWidth: .infinity)
+                        .frame(height: 48)
+                        .background(
+                            Color.darkGreen.opacity(0.10),
+                            in: Capsule()
+                        )
+                }
+                .buttonStyle(.plain)
+                .padding(.top, 8)
+            }
+            .environment(\.layoutDirection, .leftToRight)
+            .padding(24)
+            .frame(maxWidth: 320)
+            .background(
+                Color(red: 0.96, green: 0.97, blue: 0.93),
+                in: RoundedRectangle(cornerRadius: 28)
+            )
+            .padding(.horizontal, 24)
+        }
+    }
+
+    
+    private func deleteActivity(_ activity: Activity) {
+        guard activity.isCustom else { return }
+
+        selected.remove(activity.id)
+        context.delete(activity)
+        swipedActivityID = nil
+    }
+    
+    
 }
 
 // MARK: - العناصر
@@ -275,6 +487,7 @@ struct Card: View {
                     .lineLimit(2)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
+            .environment(\.layoutDirection, .rightToLeft)
 
             if let onInfo {
                 Button(action: onInfo) {
@@ -331,51 +544,97 @@ struct AddSheet: View {
     let onAdd: (String, String, ActivityCategory) -> Void
     var body: some View {
         let name = title.trimmingCharacters(in: .whitespacesAndNewlines)
+        
         VStack(alignment: .leading, spacing: 14) {
+
             Text("إضافة نشاط")
-            
-                .font(AppFont.title(22)).foregroundColor(.ink).padding(.top, 8)
-            Text("سجّل نشاطًا مستدامًا من اختيارك").font(AppFont.text(13)).foregroundColor(.softGray)
-            TextField("اسم النشاط", text: $title).inputStyle()
-            TextField("وصف مختصر (اختياري)", text: $details).inputStyle()
-            Text("نوع النشاط").font(AppFont.title(16)).foregroundColor(.ink).padding(.top, 4)
-            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                .font(AppFont.title(22))
+                .foregroundColor(.ink)
+                .padding(.top, 8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            Text("سجّل نشاطًا مستدامًا من اختيارك")
+                .font(AppFont.text(13))
+                .foregroundColor(.softGray)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            TextField("اسم النشاط", text: $title)
+                .inputStyle()
+                .environment(\.layoutDirection, .leftToRight)
+                .multilineTextAlignment(.trailing)
+
+            TextField("وصف مختصر (اختياري)", text: $details)
+                .inputStyle()
+                .environment(\.layoutDirection, .leftToRight)
+                .multilineTextAlignment(.trailing)
+
+            Text("نوع النشاط")
+                .font(AppFont.title(16))
+                .foregroundColor(.ink)
+                .padding(.top, 4)
+                .frame(maxWidth: .infinity, alignment: .leading)
+
+            LazyVGrid(
+                columns: [GridItem(.flexible()), GridItem(.flexible())],
+                spacing: 10
+            ) {
                 ForEach(ActivityCategory.allCases.filter { $0 != .all }, id: \.self) { c in
+
                     HStack(spacing: 8) {
+
                         Circle()
                             .fill(c.look.bg)
-                            .frame(width:25 , height: 25)
-                            .overlay(
+                            .frame(width: 25, height: 25)
+                            .overlay {
                                 Image(systemName: c.look.icon)
                                     .font(.system(size: 12, weight: .medium))
                                     .foregroundColor(c.look.color)
-                            )
+                            }
+
                         Text(c.rawValue)
                             .font(AppFont.title(14))
                             .foregroundColor(.ink)
                             .lineLimit(1)
                             .minimumScaleFactor(0.7)
+
+                        Spacer(minLength: 0)
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
                     .padding(.horizontal, 10)
                     .frame(height: 35)
-                    .background(Capsule().fill(type == c ? Color.cream : Color.white))
-                    .overlay(Capsule().strokeBorder(type == c ? Color.darkGreen : Color.lightGreen, lineWidth: 1.5))
+                    .background(
+                        Capsule().fill(type == c ? Color.cream : Color.white)
+                    )
+                    .overlay {
+                        Capsule()
+                            .strokeBorder(
+                                type == c ? Color.darkGreen : Color.lightGreen,
+                                lineWidth: 1.5
+                            )
+                    }
                     .contentShape(Capsule())
-                    .onTapGesture { type = c }
+                    .onTapGesture {
+                        type = c
+                    }
                 }
             }
-            
-            
+
             Spacer(minLength: 0)
+
             GreenButton(text: "إضافة", size: 20, isOn: !name.isEmpty) {
-                onAdd(name, details.trimmingCharacters(in: .whitespacesAndNewlines), type)
+                onAdd(
+                    name,
+                    details.trimmingCharacters(in: .whitespacesAndNewlines),
+                    type
+                )
                 dismiss()
             }
         }
+        .environment(\.layoutDirection, .rightToLeft)
+
         .padding(20)
         
         .frame(maxWidth: .infinity, alignment: .leading)
+        .environment(\.layoutDirection, .rightToLeft)
         .presentationBackground { ScreenBackground() }
         .presentationDetents([.fraction(0.62), .large])
     }
@@ -396,7 +655,7 @@ struct ScreenBackground: View {
 
 extension View {
     func inputStyle() -> some View {
-        self.font(AppFont.text(16)).foregroundColor(.ink).multilineTextAlignment(.leading)
+        self.font(AppFont.text(16)).foregroundColor(.ink).multilineTextAlignment(.trailing)
 
             .padding(.horizontal, 14).frame(height: 50).background(RoundedRectangle(cornerRadius: 14).fill(Color.white))
             .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(Color.lightGreen))

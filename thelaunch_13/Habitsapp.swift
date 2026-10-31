@@ -18,10 +18,13 @@ struct HabitsApp: App {
                 case 0:  WlcPage { withAnimation { stage = 1 } }
                 case 1:  OnboardingPage { withAnimation { stage = 2 } }
                 default: MainTabView()
+                       
                 }
             }
             .modelContainer(container)
 
         }
+        
+        
     }
 }

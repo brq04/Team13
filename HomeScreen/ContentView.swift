@@ -158,26 +158,7 @@ struct ContentView: View {
             dailyProgressCardContent
         }
         .buttonStyle(.plain)   // عشان ما يتغير لون النصوص
-        .overlay(alignment: .topLeading) {
-            // كلمة "تعديل" الصغيرة: تطلع بس لما يكون فيه أنشطة مسجلة
-            if snapshot.hasActive {
-                NavigationLink {
-                    Activitypage()
-                        .navigationBarBackButtonHidden(true)
-                        .toolbar(.hidden, for: .navigationBar)
-                } label: {
-                    Text("تعديل")
-                        .font(.custom("TheYearofHandicrafts-Bold", size: 13))
-                        .foregroundStyle(Color(red: 0.35, green: 0.43, blue: 0.32))
-                        .padding(.horizontal, 12)
-                        .padding(.vertical, 5)
-                        .background(Color.white, in: Capsule())
-                }
-                .buttonStyle(.plain)
-                .padding(.top, 18)
-                .padding(.leading, 20)
-            }
-        }
+        
     }
     
     
@@ -201,21 +182,50 @@ struct ContentView: View {
             let today = "اليوم \(s.currentDay.arabicDigits) من \(s.totalDays.arabicDigits)"
             if s.isGoalComplete { return "\(today) · أتممت هدفك 🎉" }
             if s.todayDone { return "\(today) · أنجزت نشاط اليوم 🌿" }
-            if s.plannedToday { return "\(today) · أضفت أنشطتك، أكّد إنجازها نهاية اليوم ⏳" }
+            if s.plannedToday {
+                return "\(today) · أضفت أنشطتك، أكّد إنجازها قبل نهاية اليوم ⏳"
+            }
             return "\(today) · سجّل نشاطك اليوم 🌱"
         }()
 
-        return VStack(alignment: .trailing, spacing: 8) {
+        return VStack(alignment: .trailing, spacing: 12) {
 
-            VStack(alignment: .trailing, spacing: 4) {
-                Text("تقدّمك اليومي")
-                    .font(.custom("TheYearofHandicrafts-Bold", size: 20))
+             VStack(alignment: .trailing, spacing: 8) {
+                
+                HStack {
+                    Text("تقدّمك اليومي")
+                        .font(.custom("TheYearofHandicrafts-Bold", size: 20))
+
+                    Spacer()
+
+                    if s.hasActive {
+                        NavigationLink {
+                            Activitypage()
+                                .navigationBarBackButtonHidden(true)
+                                .toolbar(.hidden, for: .navigationBar)
+                        } label: {
+                            Text("تعديل")
+                                .font(.custom("TheYearofHandicrafts-Bold", size: 16))
+                                .foregroundStyle(Color(red: 0.35, green: 0.43, blue: 0.32))
+                                .frame(minWidth: 70, minHeight: 44)
+                                .background(.white, in: Capsule())
+                        }
+                        .buttonStyle(.plain)
+                    }
+                }
+                .environment(\.layoutDirection, .rightToLeft)
 
                 Text(subtitle)
-                    .font(.custom("TheYearofHandicrafts-Light", size: 16))
+                    .font(.custom("TheYearofHandicrafts-Regular", size: 14))
+                    .foregroundStyle(Color(red: 0.35, green: 0.43, blue: 0.32))
+                    .multilineTextAlignment(.trailing)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
             }
             .frame(maxWidth: .infinity, alignment: .trailing)
 
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            
             HStack(spacing: 8) {
                 ForEach(visibleDays.reversed(), id: \.self) { day in
                     let state: DayState = {

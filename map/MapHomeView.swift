@@ -38,6 +38,12 @@ struct MapHomeView: View {
         }
         .padding(.horizontal, 20)
         .padding(.top, 8)
+        .background {
+            Image(.bg)
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+        }
         .sheet(item: $selected) { place in
             PlaceSheet(place: place) { handleAction(for: place) }
         }
