@@ -179,7 +179,7 @@ struct ContentView: View {
                 return "اختر نشاطًا وحدّد مدة هدفك لتبدأ 🌱"
             }
             let today = "اليوم \(s.currentDay.arabicDigits) من \(s.totalDays.arabicDigits)"
-            if s.isGoalComplete { return "\(today) · أتممت هدفك 🎉" }
+            if s.isGoalComplete { return "\(today) · أتممت هدفك 🎉 ابدأ تحديًا جديدًا غدًا" }
             if s.todayDone { return "\(today) · أنجزت نشاط اليوم 🌿" }
             if s.plannedToday {
                 return "\(today) · أضفت أنشطتك، أكّد إنجازها قبل نهاية اليوم ⏳"
@@ -210,6 +210,14 @@ struct ContentView: View {
                                 .background(.white, in: Capsule())
                         }
                         .buttonStyle(.plain)
+                    } else {
+                        // ما فيه تحدي شغّال: الكرت كله يفتح صفحة الأنشطة، وهذا بس تلميح واضح
+                        Text("ابدأ تحدي جديد")
+                            .font(.custom("TheYearofHandicrafts-Bold", size: 16))
+                            .foregroundStyle(Color(red: 0.35, green: 0.43, blue: 0.32))
+                            .padding(.horizontal, 14)
+                            .frame(minHeight: 44)
+                            .background(.white, in: Capsule())
                     }
                 }
                 .environment(\.layoutDirection, .rightToLeft)
