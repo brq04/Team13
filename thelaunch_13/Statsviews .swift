@@ -12,7 +12,7 @@ struct TodayStatsView: View {
         let s = Backend.snapshot(completions: completions, challenges: challenges)
 
         VStack(spacing: 0) {
-            StreakCard(currentDay: s.currentDay, totalDays: s.totalDays, doneDays: s.doneDays, hasActive: s.hasActive, planned: s.plannedToday)
+            StreakCard(currentDay: s.currentDay, totalDays: s.totalDays, doneDays: s.doneDays, hasActive: s.hasActive, planned: s.plannedToday, scheduled: s.scheduled)
                 .padding(.top, 45)
 
             // الدونات من نقاط اليوم
@@ -67,6 +67,7 @@ struct StreakCard: View {
     var doneDays: Set<Int> = []
     var hasActive = true
     var planned = false          // أضافت أنشطة اليوم ولسا ما أكدت
+    var scheduled = false        // تحدي جديد يبدأ بكرة
     var onEditTap: () -> Void = {}
 
     // نعرض ٧ أيام بالصف، وإذا السلسلة أطول ينتقل الصف للأسبوع التالي
@@ -95,7 +96,7 @@ struct StreakCard: View {
 
             HStack(spacing: 9) {
                 ForEach(visibleDays, id: \.self) { day in
-                    DayChip(day: day, state: state(for: day), isToday: hasActive && day == currentDay)
+                    DayChip(day: day, state: state(for: day), isToday: hasActive && !scheduled && day == currentDay)
                 }
             }
             .frame(maxWidth: .infinity)
@@ -112,7 +113,7 @@ struct StreakCard: View {
     }
 
     private func state(for day: Int) -> DayState {
-        if !hasActive { return .upcoming }
+        if !hasActive || scheduled { return .upcoming }
         if day == currentDay { return doneDays.contains(day) ? .done : .current }
         return doneDays.contains(day) ? .done : .upcoming
     }
@@ -121,11 +122,13 @@ struct StreakCard: View {
     private var goalComplete: Bool { hasActive && doneDays.count >= totalDays }
 
     private var title: String {
-        hasActive ? "يوم \(currentDay.arabicDigits) من \(totalDays.arabicDigits)" : "لا توجد سلسلة حالية"
+        if scheduled { return "يبدأ تحديك الجديد غدًا" }
+        return hasActive ? "يوم \(currentDay.arabicDigits) من \(totalDays.arabicDigits)" : "لا توجد سلسلة حالية"
     }
 
     private var subtitle: String {
         guard hasActive else { return "اختر نشاطًا وحدّد مدة هدفك لتبدأ 🌱" }
+        if scheduled { return "أنشطتك جاهزة، نلتقي غدًا 🌱" }
         if goalComplete { return "أتممت هدفك: \(totalDays.arabicDays) 🎉" }
         if doneDays.contains(currentDay) { return "أنجزت نشاط اليوم 🌿" }
         if planned { return "أكّد إنجاز أنشطتك نهاية اليوم ⏳" }
