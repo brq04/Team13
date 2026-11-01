@@ -13,6 +13,7 @@ struct StatsSnapshot {
     var completedStreaks = 0
     var hasActive = false
     var plannedToday = false            // أضافت أنشطة اليوم ولسا ما أكدت الإنجاز
+    var scheduled = false               // تحدي جديد مجدول يبدأ بكرة
 
     /// أنجزتي نشاط اليوم؟
     var todayDone: Bool { hasActive && doneDays.contains(currentDay) }
@@ -50,7 +51,7 @@ enum Backend {
         let actives = (try? ctx.fetch(FetchDescriptor<Challenge>(
             predicate: #Predicate { $0.isActive == true }))) ?? []
         var active = actives.first
-        if let c = active, c.endDate < today {
+        if let c = active, c.endDate < today || c.isCompleted {   // خلص أو انتهت مدته: نقفله ونقدر نبدأ تحدي جديد
             c.isActive = false
             active = nil
         }
@@ -60,7 +61,11 @@ enum Backend {
             challenge = existing
             challenge.activityIDs = selected.map(\.id)
         } else {
-            challenge = Challenge(startDate: today, durationDays: days, activityIDs: selected.map(\.id))
+            // لو أنجزتي أنشطة اليوم (من تحدي سابق) يبدأ التحدي الجديد بكرة، عشان ما تنحسب نقاط اليوم مرتين
+            let doneToday = !((try? ctx.fetch(FetchDescriptor<Completion>(
+                predicate: #Predicate { $0.day == today }))) ?? []).isEmpty
+            let start = doneToday ? (cal.date(byAdding: .day, value: 1, to: today) ?? today) : today
+            challenge = Challenge(startDate: start, durationDays: days, activityIDs: selected.map(\.id))
             ctx.insert(challenge)
         }
         challenge.plannedDay = today
@@ -81,7 +86,7 @@ enum Backend {
         let today = today()
         let actives = (try? ctx.fetch(FetchDescriptor<Challenge>(
             predicate: #Predicate { $0.isActive == true }))) ?? []
-        guard let c = actives.first(where: { $0.endDate >= today && $0.plannedDay == today }) else { return false }
+        guard let c = actives.first(where: { $0.startDate <= today && $0.endDate >= today }) else { return false }
 
         let ids = Set(c.activityIDs)
         let activities = ((try? ctx.fetch(FetchDescriptor<Activity>())) ?? []).filter { ids.contains($0.id) }
@@ -119,6 +124,7 @@ enum Backend {
         if let c = challenges.first(where: { $0.isActive && $0.endDate >= today }) {
             s.hasActive = true
             s.totalDays = c.durationDays
+            s.scheduled = c.startDate > today
             let elapsed = cal.dateComponents([.day], from: c.startDate, to: today).day ?? 0
             s.currentDay = min(c.durationDays, max(1, elapsed + 1))
 
@@ -126,7 +132,8 @@ enum Backend {
                 let d = (cal.dateComponents([.day], from: c.startDate, to: log.day).day ?? 0) + 1
                 if (1...c.durationDays).contains(d) { s.doneDays.insert(d) }
             }
-            s.plannedToday = c.plannedDay == today && !s.doneDays.contains(s.currentDay)
+            // الأنشطة تبقى هي نفسها كل أيام السلسلة، فكل يوم جديد فيه خطة جاهزة تنتظر تأكيد الإنجاز
+            s.plannedToday = !s.scheduled && !c.activityIDs.isEmpty && !s.doneDays.contains(s.currentDay)
         }
         return s
     }
@@ -149,7 +156,7 @@ enum Backend {
     //للأنشطه المختاره في صفحة التعديل
     static func activeSelection(_ challenges: [Challenge]) -> (ids: Set<UUID>, days: Int, plannedToday: Bool)? {
         let t = today()
-        guard let c = challenges.first(where: { $0.isActive && $0.endDate >= t }) else { return nil }
-        return (Set(c.activityIDs), c.durationDays, c.plannedDay == t)
+        guard let c = challenges.first(where: { $0.isActive && $0.endDate >= t && !$0.isCompleted }) else { return nil }
+        return (Set(c.activityIDs), c.durationDays, true)   // الخطة مستمرة لين تخلص المدة
     }
 }

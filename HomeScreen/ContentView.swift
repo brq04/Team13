@@ -1,14 +1,10 @@
 import SwiftUI
 import SwiftData
-import Combine
 
 struct ContentView: View {
     @Environment(\.modelContext) private var context
-    @State private var showEndOfDay = false
-    @State private var promptedToday = false
     @State private var celebration: String?
     @State private var showCelebration = false
-    private static let endOfDayHour = 20   // الساعة اللي يطلع فيها سؤال "سويتها؟"
     @Query private var completions: [Completion]
     @Query private var challenges: [Challenge]
     private var totalPoints: Int { completions.reduce(0) { $0 + $1.points } }
@@ -88,21 +84,12 @@ struct ContentView: View {
                 .ignoresSafeArea()
         }
         // نوافذ التطبيق العربية الموحّدة
-        .appAlert(isPresented: $showEndOfDay,
-                  title: "كفو! سويت أنشطتك اليوم؟ 🌿",
-                  message: "أكّد إنجازك عشان تنحسب نقاطك ونكمل هدفك",
-                  buttons: [AppAlertButton("نعم، أنجزتها") { completeToday() },
-                            AppAlertButton("لاحقًا", style: .cancel)])
         .appAlert(isPresented: $showCelebration,
                   title: celebration ?? "",
                   buttons: [AppAlertButton("حسنًا")])
-        .onAppear { checkEndOfDay() }
-        .onReceive(Timer.publish(every: 60, on: .main, in: .common).autoconnect()) { _ in
-            checkEndOfDay()
-        }
     }
 
-    // MARK: - تأكيد الإنجاز (نهاية اليوم)
+    // MARK: - تأكيد الإنجاز (يطلع أول ما تضيف الأنشطة، وتقدر تأكده متى دخلت)
     private var endOfDayCard: some View {
         HStack(spacing: 12) {
             Button { completeToday() } label: {
@@ -133,15 +120,6 @@ struct ContentView: View {
         showCelebration = true
     }
 
-    // نهاية اليوم: يطلع السؤال مرة وحدة لو فيه أنشطة مضافة وما انأكد إنجازها
-    private func checkEndOfDay() {
-        guard !promptedToday, snapshot.plannedToday,
-              Calendar.current.component(.hour, from: Date()) >= Self.endOfDayHour else { return }
-        promptedToday = true
-        showEndOfDay = true
-    }
-    
-    
     private var dailyProgressCard: some View {
         NavigationLink {
             if snapshot.hasActive {
@@ -178,8 +156,9 @@ struct ContentView: View {
             guard s.hasActive else {
                 return "اختر نشاطًا وحدّد مدة هدفك لتبدأ 🌱"
             }
+            if s.scheduled { return "يبدأ تحديك الجديد غدًا 🌱" }
             let today = "اليوم \(s.currentDay.arabicDigits) من \(s.totalDays.arabicDigits)"
-            if s.isGoalComplete { return "\(today) · أتممت هدفك 🎉" }
+            if s.isGoalComplete { return "\(today) · أتممت هدفك 🎉 ابدأ تحديًا جديدًا" }
             if s.todayDone { return "\(today) · أنجزت نشاط اليوم 🌿" }
             if s.plannedToday {
                 return "\(today) · أضفت أنشطتك، أكّد إنجازها قبل نهاية اليوم ⏳"
@@ -197,7 +176,7 @@ struct ContentView: View {
 
                     Spacer()
 
-                    if s.hasActive {
+                    if s.hasActive && !s.isGoalComplete {
                         NavigationLink {
                             Activitypage()
                                 .navigationBarBackButtonHidden(true)
@@ -210,6 +189,29 @@ struct ContentView: View {
                                 .background(.white, in: Capsule())
                         }
                         .buttonStyle(.plain)
+                    } else if s.isGoalComplete {
+                        // خلص التحدي: يقدر يبدأ تحدي جديد على طول
+                        NavigationLink {
+                            Activitypage()
+                                .navigationBarBackButtonHidden(true)
+                                .toolbar(.hidden, for: .navigationBar)
+                        } label: {
+                            Text("ابدأ تحدي جديد")
+                                .font(.custom("TheYearofHandicrafts-Bold", size: 16))
+                                .foregroundStyle(Color(red: 0.35, green: 0.43, blue: 0.32))
+                                .padding(.horizontal, 14)
+                                .frame(minHeight: 44)
+                                .background(.white, in: Capsule())
+                        }
+                        .buttonStyle(.plain)
+                    } else {
+                        // ما فيه تحدي شغّال: الكرت كله يفتح صفحة الأنشطة، وهذا بس تلميح واضح
+                        Text("ابدأ تحدي جديد")
+                            .font(.custom("TheYearofHandicrafts-Bold", size: 16))
+                            .foregroundStyle(Color(red: 0.35, green: 0.43, blue: 0.32))
+                            .padding(.horizontal, 14)
+                            .frame(minHeight: 44)
+                            .background(.white, in: Capsule())
                     }
                 }
                 .environment(\.layoutDirection, .rightToLeft)
@@ -228,7 +230,7 @@ struct ContentView: View {
             HStack(spacing: 8) {
                 ForEach(visibleDays.reversed(), id: \.self) { day in
                     let state: DayState = {
-                        guard s.hasActive else { return .upcoming }
+                        guard s.hasActive, !s.scheduled else { return .upcoming }
                         if day < s.currentDay { return .done }       // أيام عدّت
                         if day == s.currentDay { return s.todayDone ? .done : .current }   // اليوم
                         return .upcoming                             // لسا
