@@ -23,6 +23,7 @@ struct HabitsApp: App {
                 }
             }
             .modelContainer(container)
+            .environment(\.locale, Locale(identifier: "en"))   // أرقام إنجليزية في كل النصوص
         }
     }
 }

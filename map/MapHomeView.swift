@@ -36,6 +36,7 @@ struct MapHomeView: View {
             CategoryChips(selection: $filter)
             mapView
         }
+        .environment(\.layoutDirection, .rightToLeft)
         .padding(.horizontal, 20)
         .padding(.top, 8)
         .background {
@@ -179,17 +180,36 @@ struct AppHeader: View {
 
 struct SearchBar: View {
     @Binding var text: String
+    @FocusState private var focused: Bool
 
     var body: some View {
         HStack(spacing: 10) {
+            // أول عنصر = اليمين في العربي
             Image(systemName: "magnifyingglass").foregroundStyle(.secondary)
-            TextField("البحث", text: $text).font(.app(14))
-            Image(systemName: "mic").foregroundStyle(.secondary)
+
+            TextField("ابحث عن مكان أو فرصة تطوع", text: $text)
+                .font(.app(14))
+                .environment(\.layoutDirection, .leftToRight)   // نفس حيلة صفحة الأنشطة: يخلي الكتابة والـ placeholder يمين
+                .multilineTextAlignment(.trailing)
+                .submitLabel(.search)
+                .focused($focused)
+
+            if text.isEmpty {
+                Image(systemName: "mic").foregroundStyle(.secondary)
+            } else {
+                Button { text = "" } label: {
+                    Image(systemName: "xmark.circle.fill").foregroundStyle(.secondary)
+                }
+                .buttonStyle(.plain)
+            }
         }
+        .environment(\.layoutDirection, .rightToLeft)
         .padding(.horizontal, 15)
         .frame(height: 48)
         .background(.white.opacity(0.7), in: Capsule())
         .overlay(Capsule().stroke(.gray.opacity(0.2), lineWidth: 1))
+        .contentShape(Capsule())
+        .onTapGesture { focused = true }
     }
 }
 
@@ -222,7 +242,7 @@ struct MapLegend: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             row(icon: "tree.fill", color: .pinGreen,
-                title: "استكشاف", subtitle: "يمكنك استكشاف أماكن زراعتها")
+                title: "استكشاف", subtitle: "يمكنك استكشاف الحدائق وزيارتها")
             row(icon: "person.3.fill", color: .red,
                 title: "يحتاج متطوعين", subtitle: "أماكن تحتاج لتحسين ومساعدة")
         }

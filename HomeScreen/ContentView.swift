@@ -116,7 +116,7 @@ struct ContentView: View {
         let goalDone = Backend.completeToday(in: context)
         celebration = goalDone
             ? "أنجزت هدفك كاملًا، ما شاء الله عليك 🎉"
-            : "كفو، سويتها! نقاطك انضافت لإحصائياتك 🌿"
+            : "أحسنت، فعلتها! نقاطك انضافت لإحصائياتك 🌿"
         showCelebration = true
     }
 

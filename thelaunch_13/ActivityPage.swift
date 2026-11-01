@@ -661,10 +661,8 @@ extension View {
     }
 }
 
-func arabic(_ number: Int) -> String {
-    let digits = Array("٠١٢٣٤٥٦٧٨٩")
-    return String(String(number).compactMap { $0.wholeNumberValue }.map { digits[$0] })
-}
+// أرقام إنجليزية (123)
+func arabic(_ number: Int) -> String { String(number) }
 
 #Preview {
     Activitypage()

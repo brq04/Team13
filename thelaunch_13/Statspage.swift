@@ -8,15 +8,10 @@ import SwiftUI
 import SwiftData
 import Charts
 
-// MARK: - أرقام عربية (١٢٣) بدل اللاتينية (123)
+// MARK: - الأرقام إنجليزية (123) في كل التطبيق
+// (الاسم arabicDigits باقي عشان ما نغيّر كل الاستدعاءات، لكنه يرجّع أرقام إنجليزية)
 extension Int {
-    var arabicDigits: String {
-        let map: [Character: Character] = [
-            "0": "٠", "1": "١", "2": "٢", "3": "٣", "4": "٤",
-            "5": "٥", "6": "٦", "7": "٧", "8": "٨", "9": "٩"
-        ]
-        return String(String(self).map { map[$0] ?? $0 })
-    }
+    var arabicDigits: String { String(self) }
 }
 
 extension Int {
@@ -113,9 +108,8 @@ struct StatsContentView: View {
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.darkGreen)
                             .frame(width: 46, height: 46)
-                            .glassEffect(.regular.interactive(), in: .circle)
+                            .background(Circle().fill(Color(hex: "#E6EAE3")))
                     }
-
                 }
                 .padding(.top, 14)
 
@@ -163,7 +157,6 @@ struct StatsContentView: View {
             .padding(.horizontal, Layout.pageMargin)
             .padding(.bottom, 20)
         }
-        .background(AppBackground())
         .scrollIndicators(.hidden)
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .navigationBar)
